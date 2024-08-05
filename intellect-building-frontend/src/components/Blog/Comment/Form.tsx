@@ -1,8 +1,8 @@
-import Comment from "../../../models/comment";
+import { CommentSimple } from "../../../models/comment";
 
 interface Props {
   uuidPost: string;
-  comment: Comment | null;
+  comment: CommentSimple | null;
 }
 
 const CommentForm: React.FC<Props> = ({ uuidPost, comment }) => {
@@ -17,20 +17,17 @@ const CommentForm: React.FC<Props> = ({ uuidPost, comment }) => {
         </div>
 
         {/* <!--Comment Form--> */}
-        <form
-          method="post"
-          action="https://expert-themes.com/html/sawmall/blog.html"
-        >
-          <div className="row clearfix">
-            <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-              <input type="text" name="username" placeholder="Full Name" />
-            </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-              <input type="email" name="email" placeholder="Email" required />
-            </div>
+        <div className="row clearfix">
+          <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+            <input type="text" name="username" placeholder="Full Name" />
+          </div>
 
-            {/* <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+          <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
+
+          {/* <div className="col-lg-6 col-md-6 col-sm-12 form-group">
               <input
                 type="text"
                 name="subject"
@@ -48,25 +45,24 @@ const CommentForm: React.FC<Props> = ({ uuidPost, comment }) => {
               />
             </div> */}
 
-            <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-              <textarea
-                className="darma"
-                name="message"
-                placeholder="Comment..."
-              ></textarea>
-            </div>
-
-            <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-              <button
-                className="theme-btn submit-btn"
-                type="submit"
-                name="submit-form"
-              >
-                Submit
-              </button>
-            </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+            <textarea
+              className="darma"
+              name="message"
+              placeholder="Comment..."
+            ></textarea>
           </div>
-        </form>
+
+          <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+            <button
+              className="theme-btn submit-btn"
+              type="submit"
+              name="submit-form"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -44,3 +44,10 @@ export const useScrolling = () => {
 
   return { isScrolling };
 };
+
+export const useLoading = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any | null>(null);
+
+  return { loading, setLoading, error, setError };
+};

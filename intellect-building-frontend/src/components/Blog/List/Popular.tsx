@@ -1,39 +1,32 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useService from "../../../providers/Service/hooks";
+import { useLoading } from "../../../utils/hooks";
+import { PostSimple } from "../../../models/post";
 
 const PopularPostList: React.FC = () => {
-  const popular_posts = useMemo(
-    () => [
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        description: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdstaetqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 7,
-        title: "We Are Leading Antique Furniture Restorers.",
-        description: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        description: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-    ],
-    []
-  );
+  const [popularPosts, setPopularPosts] = useState<PostSimple[]>([]);
+
+  // chargement du service
+  const { intbuildService } = useService();
+  // etat de chargement des réponses
+  const { setError, setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    intbuildService
+      .getPopularPosts(3)
+      .then((posts) => {
+        setPopularPosts(posts);
+      })
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    return () => {};
+  }, [intbuildService, setError, setLoading]);
 
   return (
     <>
@@ -44,7 +37,7 @@ const PopularPostList: React.FC = () => {
           <h2>Popular post</h2>
         </div>
         <div className="widget-content">
-          {popular_posts.map((post, i) => {
+          {popularPosts.map((post, i) => {
             return (
               <article key={`post-${i}`} className="post">
                 <figure className="post-thumb">

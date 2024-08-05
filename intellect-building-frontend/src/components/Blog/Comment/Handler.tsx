@@ -1,16 +1,18 @@
 import { useState } from "react";
 import CommentItem from ".";
-import Comment from "../../../models/comment";
+import { CommentSimple } from "../../../models/comment";
 import CommentForm from "./Form";
 import CommentDetail from "./Detail";
 
 interface Props {
   uuidPost: string;
-  comments: Array<Comment>;
+  comments: Array<CommentSimple>;
 }
 
 const CommentHandler: React.FC<Props> = ({ uuidPost, comments }) => {
-  const [currentComment, setCurrentComment] = useState<Comment | null>(null);
+  const [currentComment, setCurrentComment] = useState<CommentSimple | null>(
+    null
+  );
 
   return (
     <>

@@ -1,10 +1,10 @@
-import Comment from "../../../models/comment";
+import { CommentSimple } from "../../../models/comment";
 import { formatDate } from "../../../utils/function";
 
 interface Props {
-  comment: Comment;
-  handleClick: (comment: Comment) => void;
-  handleReply: (comment: Comment) => void;
+  comment: CommentSimple;
+  handleClick: (comment: CommentSimple) => void;
+  handleReply: (comment: CommentSimple) => void;
 }
 
 const CommentItem: React.FC<Props> = ({
@@ -14,40 +14,39 @@ const CommentItem: React.FC<Props> = ({
 }) => {
   return (
     <div className="comment-box">
-      <div
-        className="comment"
-        onClick={(e) => {
-          e.preventDefault();
-          handleClick(comment);
-        }}
-      >
+      <div className="comment">
         <div className="author-thumb">
-          <img src="https://via.placeholder.com/70x70" alt="" />
-
-          {comment.replies.length > 0 ? (
-            <span className="fa fa-doc">
-              {comment.replies.length
-                ? `1 reply`
-                : `${comment.replies.length} replies`}
-            </span>
-          ) : null}
+          <img src={comment.owner.img} alt="" />
         </div>
-        <div className="comment-info clearfix">
-          <strong>{`${comment.nameOwner} –`}</strong>
+        <div className="comment-info clearfix mb-0">
+          <strong>{`${comment.owner.name} –`}</strong>
           <div className="comment-time">{formatDate(comment.date)}</div>
         </div>
+        <span
+          className="badge badge-pill badge-primary mb-3"
+          onClick={(e) => {
+            e.preventDefault();
+            handleClick(comment);
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          <span className="fa fa-comment">
+            {` ${comment.nbreReplies}` +
+              (comment.nbreReplies < 2 ? ` reply` : ` replies`)}
+          </span>
+        </span>
         <div className="text">{comment.content}</div>
+        <a
+          className="theme-btn reply-btn fa fa-mail-reply"
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            handleReply(comment);
+          }}
+        >
+          Reply
+        </a>
       </div>
-      <a
-        className="theme-btn reply-btn fa fa-mail-reply"
-        href="/"
-        onClick={(e) => {
-          e.preventDefault();
-          handleReply(comment);
-        }}
-      >
-        Reply
-      </a>
     </div>
   );
 };

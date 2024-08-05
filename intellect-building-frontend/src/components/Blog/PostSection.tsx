@@ -1,30 +1,32 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import PostItemCard from "./Item/Card";
+import { PostSimple } from "../../models/post";
+import useService from "../../providers/Service/hooks";
+import { useLoading } from "../../utils/hooks";
 
 const PostSection: React.FC = () => {
-  const posts = useMemo(
-    () => [
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdstaetqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 7,
-        title: "We Are Leading Antique Furniture Restorers.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-    ],
-    []
-  );
+  const [posts, setPosts] = useState<PostSimple[]>([]);
+
+  // chargement du service
+  const { intbuildService } = useService();
+  // etat de chargement des réponses
+  const { setError, setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    intbuildService
+      .getPosts(2)
+      .then((posts) => {
+        setPosts(posts);
+      })
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    return () => {};
+  }, [intbuildService, setError, setLoading]);
 
   return (
     <>

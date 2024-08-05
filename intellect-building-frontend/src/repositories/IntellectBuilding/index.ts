@@ -1,12 +1,12 @@
 import { type TypeRepository } from "../TypeRepository";
-import ProdOpencareRepository from "./prodRepository";
-import OpencareRepository from "./repository";
+import ProdIntellectRepository from "./prodRepository";
+import IntellectRepository from "./repository";
 
-export function getOpencareRepository(
+export function getIntellectRepository(
   t: TypeRepository = "fake"
-): OpencareRepository {
+): IntellectRepository {
   if (t === "fake") {
-    return new OpencareRepository();
+    return new IntellectRepository();
   }
-  return new ProdOpencareRepository();
+  return new ProdIntellectRepository();
 }

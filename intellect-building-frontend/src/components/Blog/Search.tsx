@@ -1,5 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "../../models/category";
+import useService from "../../providers/Service/hooks";
+import { useLoading } from "../../utils/hooks";
 
 interface Props {
   handleSearchText: (searchText: string) => void;
@@ -16,31 +18,28 @@ const Search: React.FC<Props> = ({
   currentSearchText,
   currentCategory,
 }) => {
-  const categories = useMemo(
-    () => [
-      {
-        uuid: "1",
-        title: "Handmade Furniture",
-        totalPosts: 3,
-      },
-      {
-        uuid: "12",
-        title: "General Carpentry",
-        totalPosts: 5,
-      },
-      {
-        uuid: "13",
-        title: "Office Renevation",
-        totalPosts: 5,
-      },
-      {
-        uuid: "14",
-        title: "Kitchen Modeling",
-        totalPosts: 25,
-      },
-    ],
-    []
-  );
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  // chargement du service
+  const { intbuildService } = useService();
+  // etat de chargement des réponses
+  const { setError, setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    intbuildService
+      .getPostCategories()
+      .then((categories) => {
+        setCategories(categories);
+      })
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    return () => {};
+  }, [intbuildService, setError, setLoading]);
 
   return (
     <>
@@ -55,7 +54,6 @@ const Search: React.FC<Props> = ({
             onChange={(e) => {
               e.preventDefault();
               handleSearchText(e.target.value);
-              
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {

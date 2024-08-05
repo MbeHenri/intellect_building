@@ -1,4 +1,4 @@
-import Comment from "./comment";
+import { CommentSimple } from "./comment";
 
 export interface PostSimple {
     uuid: string,
@@ -17,7 +17,7 @@ export default interface Post {
         img: string; login: string, name: string, linkLinkedIn: string, description: string
     },
     date: Date,
-    comments: Array<Comment>,
+    comments: CommentSimple[],
     title: string,
     content: string,
     nextPost: { summary: string, uuid: string } | undefined | null,

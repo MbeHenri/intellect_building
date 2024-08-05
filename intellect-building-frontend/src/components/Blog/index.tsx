@@ -1,78 +1,44 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Search from "./Search";
 import { Category } from "../../models/category";
 import PostList from "./List";
 import PopularPostList from "./List/Popular";
+import { PostSimple } from "../../models/post";
+import useService from "../../providers/Service/hooks";
+import { useLoading } from "../../utils/hooks";
 
 const Blog: React.FC = () => {
   const [currentSeachText, setCurrentSeachText] = useState("");
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
 
-  const handleCategory = (category: Category) => {
+  const handleCategory = useCallback((category: Category) => {
     setCurrentCategory(category);
-  };
+  }, []);
 
-  const handleSubmit = async () => {};
+  const handleSubmit = useCallback(async () => {}, []);
 
-  const posts = useMemo(
-    () => [
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdstaetqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 7,
-        title: "We Are Leading Antique Furniture Restorers.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdstaetqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 7,
-        title: "We Are Leading Antique Furniture Restorers.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdqsqsdqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 3,
-        title: "Sawmall Treak Truned into Furniture.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-      {
-        uuid: "qsdstaetqsdqsd",
-        img: "https://via.placeholder.com/200x100",
-        publisher: "Admin",
-        date: new Date(),
-        nbreComment: 7,
-        title: "We Are Leading Antique Furniture Restorers.",
-        summary: `We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charm of pleasure of...`,
-      },
-    ],
-    []
-  );
+  const [posts, setPosts] = useState<PostSimple[]>([]);
+
+  // chargement du service
+  const { intbuildService } = useService();
+  // etat de chargement des réponses
+  const { setError, setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    intbuildService
+      .getPosts()
+      .then((posts) => {
+        setPosts(posts);
+      })
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    return () => {};
+  }, [intbuildService, setError, setLoading]);
 
   return (
     <div className="sidebar-page-container">
