@@ -1,3 +1,5 @@
+import Product from "../../models/product";
+
 class IntellectRepository {
 
     async getPostCategories(): Promise<any> {
@@ -203,7 +205,7 @@ class IntellectRepository {
             date: new Date(),
             content:
                 "Omnis iste natus error sit voluptatem accusantium doloremque laudantium, ipsa quae ab illo inventore veritatis et quasi architecto.",
-            replies: [  
+            replies: [
                 {
                     uuid: "12",
                     owner: {
@@ -219,9 +221,76 @@ class IntellectRepository {
     }
 
     async getTrainings(limit?: number, offset?: number, searchText?: string): Promise<any> {
+        return [
+            {
+                uuid: "13",
+                img: "https://via.placeholder.com/70x70",
+                name: "React Training",
+                price: 99,
+                type: "training",
+            },
+            {
+                uuid: "14",
+                img: "https://via.placeholder.com/70x70",
+                name: "JS Training",
+                price: 100,
+                type: "training",
+            },
+            {
+                uuid: "15",
+                img: "https://via.placeholder.com/70x70",
+                name: "CSS Training",
+                price: 101,
+                type: "training",
+            },
+            {
+                uuid: "13",
+                img: "https://via.placeholder.com/70x70",
+                name: "Typescript Training",
+                price: 5,
+                type: "training",
+            },
+        ]
     }
 
-    async getTraining(uuid: string): Promise<any> {
+    async getTraining(uuid: string): Promise<Product> {
+        return {
+            uuid,
+            summary: `Asininely angelic less lighted bought we flung reindeer
+            however irrespective solemny as listlessly thus famous.
+            Mauris turpis nisi, egestas non enim at gravida rutrum
+            mauris.`,
+            description: `<p>
+            Lopsidedly wow fastidious before rhinoceros gosh from
+            more unobtrusive since this unlike falsely far mundanely
+            lethargically camel groomed save antelop thus
+            inconspicuously since jay that for ouch far a one dog
+            save gosh more ouch wherever that depending darn much
+            daintily wiped hello jeez thus adversely man of war that
+            unicorn thanks richly mannish less save like and dog
+            from bore extensive. Supreme alas hellish circa.
+          </p>
+          <p>
+            Inside this beyond into bit on capable through jeez yet
+            tolerably plain and shark stealthy more breezily because
+            ground passably gecko pending far up erroneor yikes
+            lantern whimsically mowed one come admonishing amidst
+            floated fortuitous crud far the the staunchly.
+          </p>`,
+            img: "https://via.placeholder.com/70x70",
+            infos: `<p>
+          Lopsidedly wow fastidious before rhinoceros gosh from
+          more unobtrusive since this unlike falsely far mundanely
+          lethargically camel groomed save antelop thus
+          inconspicuously since jay that for ouch far a one dog
+          save gosh more ouch wherever that depending darn much
+          daintily wiped hello jeez thus adversely man of war that
+          unicorn thanks richly mannish less save like and dog
+          from bore extensive. Supreme alas hellish.
+        </p>`,
+            name: "Js Training",
+            price: 52
+        }
     }
 }
 

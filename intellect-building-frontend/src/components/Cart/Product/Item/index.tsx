@@ -1,7 +1,8 @@
-import Product from "../../../../models/product";
+import { Link } from "react-router-dom";
+import { ProductSimple } from "../../../../models/product";
 
 interface Props {
-  product: Product;
+  product: ProductSimple;
   handleDelete: () => void;
 }
 
@@ -16,7 +17,7 @@ const CartProductItem: React.FC<Props> = ({ product, handleDelete }) => {
           <img src={product.img} alt="" />
         </div>
         <h3>
-          <a href="shop-single.html">{product.name}</a>
+          <Link to={`/training/${product.uuid}`}>{product.name}</Link>
         </h3>
         <div className="quantity-text">{product.quantity}</div>
         <div className="price">{`$${product.price}`}</div>

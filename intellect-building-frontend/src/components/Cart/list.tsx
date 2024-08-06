@@ -2,25 +2,26 @@ import { Link } from "react-router-dom";
 import useCart from "../../providers/Cart/hooks";
 import { useCallback, useMemo, useState } from "react";
 import { compute_total } from "../../utils/function";
-import Product from "../../models/product";
 import CartProductItemRow from "./Product/Item/Row";
+import { ProductSimple } from "../../models/product";
 
 const CartList: React.FC = () => {
   const { products, tax, updateProducts } = useCart();
 
   const subTotal = useMemo(() => compute_total(products), [products]);
 
-  const [productsState, setProductsState] = useState<Array<Product>>(products);
+  const [productsState, setProductsState] =
+    useState<Array<ProductSimple>>(products);
 
   const handleDelete = useCallback(
-    (product: Product) => {
+    (product: ProductSimple) => {
       setProductsState(productsState.filter((p) => p.uuid !== product.uuid));
     },
     [productsState]
   );
 
   const handleChangeQuantity = useCallback(
-    (quantity: number, product: Product) => {
+    (quantity: number, product: ProductSimple) => {
       setProductsState(
         productsState.map((p) => {
           if (p.uuid === product.uuid) {

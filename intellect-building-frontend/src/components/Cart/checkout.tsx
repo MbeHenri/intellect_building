@@ -162,8 +162,12 @@ const CartCheckout: React.FC = () => {
                     {products.map((product, i) => {
                       return (
                         <li key={`prod-${i}`}>
-                          {`${product.name} x ${product.quantity}`}
-                          <span>{`$${product.quantity * product.price}`}</span>
+                          {product.quantity
+                            ? `${product.name} x ${product.quantity}`
+                            : product.name}
+                          <span>{`$${
+                            (product.quantity ?? 1) * product.price
+                          }`}</span>
                         </li>
                       );
                     })}

@@ -9,7 +9,7 @@ import Top from "../Top";
 import { Link } from "react-router-dom";
 
 interface Props {
-  currentPage?: "home" | "training" | "blog";
+  currentPage?: "home" | "product" | "blog";
 }
 
 const Header: React.FC<Props> = ({ currentPage }) => {
@@ -153,7 +153,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                       </li>
                       <li
                         className={
-                          currentPage && currentPage === "training"
+                          currentPage && currentPage === "product"
                             ? "current"
                             : ""
                         }

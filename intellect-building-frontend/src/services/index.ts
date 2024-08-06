@@ -1,6 +1,7 @@
 import { Category } from "../models/category";
 import Comment, { CommentSimple } from "../models/comment";
 import Post, { PostSimple } from "../models/post";
+import Product, { ProductSimple } from "../models/product";
 import { getIntellectRepository } from "../repositories/IntellectBuilding";
 import IntellectRepository from "../repositories/IntellectBuilding/repository";
 
@@ -33,12 +34,12 @@ class BaseService {
         return await this.base_rep.getComment(comment.uuid)
     }
 
-    async getTrainings(limit?: number, offset?: number, searchText?: string): Promise<any> {
+    async getTrainings(limit?: number, offset?: number, searchText?: string): Promise<ProductSimple[]> {
         return await this.base_rep.getTrainings(limit, offset, searchText)
     }
 
-    async getTraining(): Promise<any> {
-        return await this.base_rep.getTraining("kllk")
+    async getTraining(uuid: string): Promise<Product> {
+        return await this.base_rep.getTraining(uuid)
     }
 }
 

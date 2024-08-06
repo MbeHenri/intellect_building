@@ -1,10 +1,12 @@
 import React, { ReactNode, createContext, useMemo, useState } from "react";
-import Product from "../../models/product";
+import { ProductSimple } from "../../models/product";
 
 interface PropsContext {
-  products: Array<Product>;
+  products: ProductSimple[];
   tax: number;
-  updateProducts: (newProducts: Product[]) => void;
+  updateProducts: (newProducts: ProductSimple[]) => void;
+  addProduct: (newProduct: ProductSimple) => void;
+  inCart: (product: ProductSimple) => boolean;
 }
 interface PropsProvider {
   children: ReactNode;
@@ -14,33 +16,31 @@ export const CartContext = createContext<PropsContext>({
   products: [],
   tax: 0,
   updateProducts: (newProducts) => {},
+  addProduct: (newProduct) => {},
+  inCart: (newProduct) => true,
 });
 const CartProvider: React.FC<PropsProvider> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>([
-    {
-      uuid: "11",
-      img: "https://via.placeholder.com/70x70",
-      name: "Flying Ninja",
-      quantity: 1,
-      price: 99,
-    },
-    {
-      uuid: "12",
-      img: "https://via.placeholder.com/70x70",
-      name: "Patient Ninja",
-      quantity: 1,
-      price: 99,
-    },
-  ]);
+  const [products, setProducts] = useState<ProductSimple[]>([]);
 
-  const updateProducts = (newProducts: Product[]) => {
+  const updateProducts = (newProducts: ProductSimple[]) => {
     setProducts(newProducts);
+  };
+
+  const addProduct = (newProduct: ProductSimple) => {
+    !products.find((e) => e.uuid === newProduct.uuid) &&
+      setProducts([...products, newProduct]);
+  };
+
+  const inCart = (newProduct: ProductSimple) => {
+    return products.find((e) => e.uuid === newProduct.uuid) ? true : false;
   };
 
   const tax = useMemo(() => 15.0, []);
 
   return (
-    <CartContext.Provider value={{ products, tax, updateProducts }}>
+    <CartContext.Provider
+      value={{ products, tax, updateProducts, addProduct, inCart }}
+    >
       {children}
     </CartContext.Provider>
   );
