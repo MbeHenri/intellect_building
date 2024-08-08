@@ -1,5 +1,3 @@
-import Product from "../../models/product";
-
 class IntellectRepository {
 
     async getPostCategories(): Promise<any> {
@@ -31,7 +29,7 @@ class IntellectRepository {
         return [
             {
                 uuid: "qsdqsqsdqsdqsd",
-                img: "https://via.placeholder.com/200x100",
+                img: "",
                 publisher: "Admin",
                 date: new Date(),
                 nbreComment: 3,
@@ -67,7 +65,7 @@ class IntellectRepository {
             },
             {
                 uuid: "qsdqsqsdqsdqsd",
-                img: "https://via.placeholder.com/200x100",
+                img: "",
                 publisher: "Admin",
                 date: new Date(),
                 nbreComment: 3,
@@ -99,7 +97,7 @@ class IntellectRepository {
             },
             {
                 uuid: "qsdstaetqsdqsd",
-                img: "https://via.placeholder.com/200x100",
+                img: "",
                 publisher: "Admin",
                 date: new Date(),
                 nbreComment: 7,
@@ -156,7 +154,7 @@ class IntellectRepository {
                 </p>
               </div>
             </div>`,
-            img: "https://via.placeholder.com/200x100",
+            img: "",
             publisher: {
                 img: "https://via.placeholder.com/50x50",
                 login: "Admin",
@@ -224,7 +222,7 @@ class IntellectRepository {
         return [
             {
                 uuid: "13",
-                img: "https://via.placeholder.com/70x70",
+                img: "",
                 name: "React Training",
                 price: 99,
                 type: "training",
@@ -238,7 +236,7 @@ class IntellectRepository {
             },
             {
                 uuid: "15",
-                img: "https://via.placeholder.com/70x70",
+                img: "",
                 name: "CSS Training",
                 price: 101,
                 type: "training",
@@ -253,7 +251,7 @@ class IntellectRepository {
         ]
     }
 
-    async getTraining(uuid: string): Promise<Product> {
+    async getTraining(uuid: string): Promise<any> {
         return {
             uuid,
             summary: `Asininely angelic less lighted bought we flung reindeer
@@ -277,7 +275,7 @@ class IntellectRepository {
             lantern whimsically mowed one come admonishing amidst
             floated fortuitous crud far the the staunchly.
           </p>`,
-            img: "https://via.placeholder.com/70x70",
+            img: "",
             infos: `<p>
           Lopsidedly wow fastidious before rhinoceros gosh from
           more unobtrusive since this unlike falsely far mundanely
@@ -291,6 +289,14 @@ class IntellectRepository {
             name: "Js Training",
             price: 52
         }
+    }
+
+    async getUser(uuid: string): Promise<any> {
+        return {}
+    }
+
+    async getProfile(uuid: string): Promise<any> {
+        return {}
     }
 }
 

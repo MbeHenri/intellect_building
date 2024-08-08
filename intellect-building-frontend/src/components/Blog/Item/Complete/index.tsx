@@ -1,8 +1,9 @@
 import React from "react";
-import Post from "../../../models/post";
-import CommentHandler from "../Comment/Handler";
-import { formatDate } from "../../../utils/function";
+import Post from "../../../../models/post";
+import CommentHandler from "../../Comment/Handler";
+import { formatDate } from "../../../../utils/function";
 import parse from "html-react-parser";
+import placehoderImage from "../../../../assets/images/placeholder/1.jpeg";
 
 interface Props {
   post: Post;
@@ -14,7 +15,7 @@ const PostComplete: React.FC<Props> = ({ post }) => {
       <div className="news-detail">
         <div className="inner-box">
           <div className="image">
-            <img src={post.img} alt="" />
+            <img src={post.img === "" ? placehoderImage : post.img} alt="" />
           </div>
           <div className="lower-content">
             <ul className="post-meta">

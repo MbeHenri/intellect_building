@@ -6,6 +6,8 @@ import PostComplete from "./Item/Complete";
 import useService from "../../providers/Service/hooks";
 import { useLoading } from "../../utils/hooks";
 import Post from "../../models/post";
+import PostCompleteSkeleton from "./Item/Complete/Skeleton";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   uuid: string;
@@ -16,7 +18,8 @@ const BlogDetail: React.FC<Props> = ({ uuid }) => {
   // chargement du service
   const { intbuildService } = useService();
   // etat de chargement des réponses
-  const { setError, setLoading } = useLoading();
+  const { setLoading, loading } = useLoading();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -26,13 +29,13 @@ const BlogDetail: React.FC<Props> = ({ uuid }) => {
         setPost(post);
       })
       .catch((e) => {
-        setError(e);
+        navigate("*");
       })
       .finally(() => {
         setLoading(false);
       });
     return () => {};
-  }, [intbuildService, setError, setLoading, uuid]);
+  }, [intbuildService, navigate, setLoading, uuid]);
 
   const [currentSeachText, setCurrentSeachText] = useState("");
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
@@ -48,7 +51,11 @@ const BlogDetail: React.FC<Props> = ({ uuid }) => {
           <div className="row clearfix">
             {/* <!-- Content Side --> */}
             <div className="content-side col-lg-8 col-md-12 col-sm-12">
-              {post ? <PostComplete post={post} /> : null}
+              {loading ? (
+                <PostCompleteSkeleton />
+              ) : post ? (
+                <PostComplete post={post} />
+              ) : null}
             </div>
 
             {/* <!-- Sidebar Side --> */}

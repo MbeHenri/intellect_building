@@ -5,7 +5,7 @@ import { useLoading, usePagination } from "../../utils/hooks";
 import useSite from "../../providers/Site/hooks";
 import ProductItem from "./Item";
 
-const NBRE_PER_PAGE = 2;
+const NBRE_PER_PAGE = 6;
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<ProductSimple[]>([]);

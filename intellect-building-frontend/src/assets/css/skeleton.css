@@ -1,0 +1,55 @@
+.skeleton-box {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.skeleton-text {
+    height: 16px;
+    width: 80%;
+}
+
+.skeleton-box.image {
+    height: 200px;
+    width: 100%;
+}
+
+.skeleton-box h3 {
+    height: 24px;
+    width: 60%;
+}
+
+.skeleton-box.text {
+    height: 16px;
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.skeleton-icon {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.skeleton-box.read-more {
+    height: 16px;
+    width: 30%;
+}
+
+.shimmer {
+    animation: shimmer 1.5s infinite linear;
+    background: linear-gradient(to right, #e0e0e0 0%, #f0f0f0 20%, #e0e0e0 40%, #e0e0e0 100%);
+    background-size: 200% auto;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}

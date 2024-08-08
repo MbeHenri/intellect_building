@@ -3,6 +3,7 @@ import { PostSimple as Post } from "../../../models/post";
 import { formatDate } from "../../../utils/function";
 import { Link } from "react-router-dom";
 import useSite from "../../../providers/Site/hooks";
+import placehoderImage from "../../../assets/images/placeholder/1.jpeg";
 
 interface Props {
   post: Post;
@@ -21,7 +22,7 @@ export const PostItem: React.FC<Props> = ({ post }) => {
                 scrollToTopTarget && scrollToTopTarget(100);
               }}
             >
-              <img src={post.img} alt="" />
+              <img src={post.img === "" ? placehoderImage : post.img} alt="" />
             </Link>
           </div>
           <div className="lower-content">

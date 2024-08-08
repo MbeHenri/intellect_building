@@ -36,3 +36,11 @@ export const customScrollTo = (targetY: number, duration: number) => {
 
     requestAnimationFrame(animateScroll);
 };
+
+export const limitContent = (input: string, number?: number): string => {
+    // Supprimer les balises HTML
+    const strippedString = input.replace(/<\/?[^>]+(>|$)/g, "");
+
+    // Extraire les 5 premiers caractères
+    return strippedString.slice(0, number ?? 20);
+};

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProductSimple } from "../../../../models/product";
+import placehoderImage from "../../../../assets/images/placeholder/2.jpeg";
 
 interface Props {
   product: ProductSimple;
@@ -14,7 +15,10 @@ const CartProductItem: React.FC<Props> = ({ product, handleDelete }) => {
           <span className="icon fa fa-remove"></span>
         </div>
         <div className="image">
-          <img src={product.img} alt="" />
+          <img
+            src={product.img === "" ? placehoderImage : product.img}
+            alt=""
+          />
         </div>
         <h3>
           <Link to={`/training/${product.uuid}`}>{product.name}</Link>

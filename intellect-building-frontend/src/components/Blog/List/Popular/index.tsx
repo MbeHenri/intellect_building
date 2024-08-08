@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useService from "../../../providers/Service/hooks";
-import { useLoading } from "../../../utils/hooks";
-import { PostSimple } from "../../../models/post";
+import useService from "../../../../providers/Service/hooks";
+import { useLoading } from "../../../../utils/hooks";
+import { PostSimple } from "../../../../models/post";
 
 const PopularPostList: React.FC = () => {
   const [popularPosts, setPopularPosts] = useState<PostSimple[]>([]);

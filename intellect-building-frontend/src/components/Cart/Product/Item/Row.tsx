@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProductSimple } from "../../../../models/product";
+import placehoderImage from "../../../../assets/images/placeholder/2.jpeg";
 
 interface Props {
   product: ProductSimple;
@@ -18,7 +19,10 @@ const CartProductItemRow: React.FC<Props> = ({
         <div className="column-box">
           <figure className="prod-thumb">
             <Link to={`/training/${product.uuid}`}>
-              <img src={product.img} alt="" />
+              <img
+                src={product.img === "" ? placehoderImage : product.img}
+                alt=""
+              />
             </Link>
           </figure>
           <h6 className="prod-title">{product.name}</h6>

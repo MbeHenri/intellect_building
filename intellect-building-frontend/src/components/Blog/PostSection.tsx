@@ -3,6 +3,7 @@ import PostItemCard from "./Item/Card";
 import { PostSimple } from "../../models/post";
 import useService from "../../providers/Service/hooks";
 import { useLoading } from "../../utils/hooks";
+import PostItemCardSkeleton from "./Item/Card/Skeleton";
 
 const PostSection: React.FC = () => {
   const [posts, setPosts] = useState<PostSimple[]>([]);
@@ -10,7 +11,7 @@ const PostSection: React.FC = () => {
   // chargement du service
   const { intbuildService } = useService();
   // etat de chargement des réponses
-  const { setError, setLoading } = useLoading();
+  const { setError, setLoading, loading } = useLoading();
 
   useEffect(() => {
     setLoading(true);
@@ -37,9 +38,11 @@ const PostSection: React.FC = () => {
             <div className="separate"></div>
           </div>
           <div className="news-carousel-two row">
-            {posts.map((post, i) => {
-              return <PostItemCard key={`post-${i}`} post={post} />;
-            })}
+            {loading
+              ? Array(2).map((_, i) => <PostItemCardSkeleton key={i} />)
+              : posts.map((post, i) => {
+                  return <PostItemCard key={`post-${i}`} post={post} />;
+                })}
           </div>
         </div>
       </section>

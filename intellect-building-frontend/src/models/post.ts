@@ -20,7 +20,7 @@ export default interface Post {
     comments: CommentSimple[],
     title: string,
     content: string,
-    nextPost: { summary: string, uuid: string } | undefined | null,
-    previousPost: { summary: string, uuid: string } | undefined | null,
+    nextPost?: { summary: string, uuid: string } | null,
+    previousPost?: { summary: string, uuid: string } | null,
 }
 

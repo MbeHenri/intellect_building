@@ -6,6 +6,7 @@ import PopularPostList from "./List/Popular";
 import { PostSimple } from "../../models/post";
 import useService from "../../providers/Service/hooks";
 import { useLoading } from "../../utils/hooks";
+import PostListSkeleton from "./List/Skeleton";
 
 const Blog: React.FC = () => {
   const [currentSeachText, setCurrentSeachText] = useState("");
@@ -22,7 +23,7 @@ const Blog: React.FC = () => {
   // chargement du service
   const { intbuildService } = useService();
   // etat de chargement des réponses
-  const { setError, setLoading } = useLoading();
+  const { setError, setLoading, loading } = useLoading();
 
   useEffect(() => {
     setLoading(true);
@@ -46,7 +47,7 @@ const Blog: React.FC = () => {
         <div className="row clearfix">
           {/* <!-- Content Side --> */}
           <div className="content-side col-lg-8 col-md-12 col-sm-12">
-            <PostList posts={posts} />
+            {loading ? <PostListSkeleton /> : <PostList posts={posts} />}
           </div>
 
           {/* <!-- Sidebar Side --> */}

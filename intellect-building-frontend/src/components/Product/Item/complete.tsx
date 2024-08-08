@@ -4,7 +4,7 @@ import { useLoading } from "../../../utils/hooks";
 import Product from "../../../models/product";
 import parse from "html-react-parser";
 import useCart from "../../../providers/Cart/hooks";
-
+import placehoderImage from "../../../assets/images/placeholder/2.jpeg";
 interface Props {
   uuid: string;
 }
@@ -48,7 +48,7 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
                 <div className="row clearfix">
                   <div className="image-column col-lg-7 col-md-12 col-sm-12">
                     <img
-                      src={product.img}
+                      src={product.img === "" ? placehoderImage : product.img}
                       className="w-100"
                       style={{ height: "25rem" }}
                       alt=""
@@ -60,6 +60,11 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
                     <div className="details-header">
                       <h2>{product.name}</h2>
                       <div className="item-price">{`Price: $${product.price}`}</div>
+                      <ul className="shop-list">
+                        <li>
+                          <a href="share">SHARE</a>
+                        </li>
+                      </ul>
                     </div>
 
                     <div className="text">
@@ -152,12 +157,6 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
                         ) : null}
                       </div>
                     </div>
-
-                    <ul className="shop-list">
-                      <li>
-                        <a href="share">SHARE</a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
@@ -178,16 +177,18 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
                     >
                       Description
                     </li>
-                    <li
-                      className={
-                        "tab-btn" + (tab === "moreinfo" ? " active-btn" : "")
-                      }
-                      onClick={() => {
-                        setTab("moreinfo");
-                      }}
-                    >
-                      Additional Information
-                    </li>
+                    {product.infos !== "" ? (
+                      <li
+                        className={
+                          "tab-btn" + (tab === "moreinfo" ? " active-btn" : "")
+                        }
+                        onClick={() => {
+                          setTab("moreinfo");
+                        }}
+                      >
+                        Additional Information
+                      </li>
+                    ) : null}
                   </ul>
 
                   {/*  <!--Tabs Container--> */}
@@ -200,14 +201,19 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
                     </div>
 
                     {/* <!--Tab / Active Tab--> */}
-                    <div
-                      className={tab === "moreinfo" ? "d-block" : "d-none"}
-                      id="prod-info"
-                    >
-                      <div className="content">
-                        <p>{parse(product.infos)}</p>
+
+                    {product.infos !== "" ? (
+                      <div
+                        className={tab === "moreinfo" ? "d-block" : "d-none"}
+                        id="prod-info"
+                      >
+                        <div className="content">
+                          <p>{parse(product.infos)}</p>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>

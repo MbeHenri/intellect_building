@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProductSimple } from "../../../models/product";
+import placehoderImage from "../../../assets/images/placeholder/2.jpeg";
 
 interface Props {
   product: ProductSimple;
@@ -12,7 +13,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           <Link to={`/training/${product.uuid}`}>
             <div className="image" style={{ height: "15rem" }}>
               <img
-                src={product.img}
+                src={product.img === "" ? placehoderImage : product.img}
                 style={{ width: "100%", height: "100%" }}
                 alt=""
               />
