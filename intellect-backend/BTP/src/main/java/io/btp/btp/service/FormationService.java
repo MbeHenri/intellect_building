@@ -4,6 +4,7 @@ import io.btp.btp.domain.Formation;
 import io.btp.btp.model.FormationDTO;
 import io.btp.btp.repos.CartRepository;
 import io.btp.btp.repos.FormationRepository;
+import io.btp.btp.service.storage.FileSystemStorageService;
 import io.btp.btp.util.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -17,11 +18,13 @@ public class FormationService {
 
     private final FormationRepository formationRepository;
     private final CartRepository cartRepository;
+    private final FileSystemStorageService fileSystemStorageService;
 
     public FormationService(final FormationRepository formationRepository,
-            final CartRepository cartRepository) {
+            final CartRepository cartRepository, final FileSystemStorageService fileSystemStorageService) {
         this.formationRepository = formationRepository;
         this.cartRepository = cartRepository;
+        this.fileSystemStorageService = fileSystemStorageService;
     }
 
     public List<FormationDTO> findAll() {
@@ -65,6 +68,7 @@ public class FormationService {
         formationDTO.setPrice(formation.getPrice());
         formationDTO.setDescription(formation.getDescription());
         formationDTO.setPdfFile(formation.getPdfFile());
+        formationDTO.setPdfFileData(fileSystemStorageService.toByte(formation.getPdfFile()));
         return formationDTO;
     }
 
