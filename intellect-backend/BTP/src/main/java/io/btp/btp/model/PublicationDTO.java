@@ -22,14 +22,22 @@ public class PublicationDTO {
     @NotNull
     private Long user;
 
+    private byte[] imageData;
+
     public PublicationDTO(){
         
     }
+
 
     public PublicationDTO(String content, String image, Long user){
         this.content = content;
         this.image = image;
         this.user = user;
+    }
+
+    public PublicationDTO(String content, String image, Long user, byte[] imageData){
+        this(content, image, user);
+        this.imageData = imageData;
     }
 
 }

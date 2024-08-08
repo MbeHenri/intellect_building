@@ -29,4 +29,7 @@ public class ProfileDTO {
     @Size(max = 255)
     private String photo;
 
+
+    private byte[] photoData;
+
 }

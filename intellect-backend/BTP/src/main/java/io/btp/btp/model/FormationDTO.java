@@ -26,6 +26,9 @@ public class FormationDTO {
     @Size(max = 255)
     private String pdfFile;
 
+
+    private byte[] pdfFileData;
+
     public FormationDTO(){
 
     }

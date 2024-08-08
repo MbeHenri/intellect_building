@@ -16,6 +16,8 @@ public interface StorageService {
 
 	
 	Path load(String filename);
+
+	public byte[] toByte(String  filePath);
 	
 	Resource loadAsResource(String filename);
 	

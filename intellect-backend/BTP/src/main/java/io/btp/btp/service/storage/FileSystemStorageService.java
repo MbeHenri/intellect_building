@@ -119,4 +119,23 @@ public class FileSystemStorageService implements StorageService {
 		Path path = Paths.get(filename);
 		Files.delete(path);
 	}
+
+	@Override
+	public byte[] toByte(String  filePath) {
+        String audioFilePath = filePath;
+
+        if (audioFilePath == null) {
+            return null;
+        }
+
+        try {
+            Path path = Paths.get(audioFilePath);
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            // Handle the exception according to your needs
+            e.printStackTrace();
+        }
+
+        return null; // Return null if the audio file data couldn't be read
+    }
 }

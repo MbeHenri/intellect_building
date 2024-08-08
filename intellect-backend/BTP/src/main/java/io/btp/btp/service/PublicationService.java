@@ -8,6 +8,7 @@ import io.btp.btp.repos.CategoryRepository;
 import io.btp.btp.repos.CommentRepository;
 import io.btp.btp.repos.PublicationRepository;
 import io.btp.btp.repos.UserRepository;
+import io.btp.btp.service.storage.FileSystemStorageService;
 import io.btp.btp.util.ReferencedWarning;
 import io.btp.btp.util.exception.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -24,14 +25,16 @@ public class PublicationService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
+    private final FileSystemStorageService fileSystemStorageService;
 
     public PublicationService(final PublicationRepository publicationRepository,
             final UserRepository userRepository, final CategoryRepository categoryRepository,
-            final CommentRepository commentRepository) {
+            final CommentRepository commentRepository, final FileSystemStorageService fileSystemStorageService) {
         this.publicationRepository = publicationRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
+        this.fileSystemStorageService = fileSystemStorageService;
     }
 
     public List<PublicationDTO> findAll() {
@@ -74,6 +77,7 @@ public class PublicationService {
         publicationDTO.setId(publication.getId());
         publicationDTO.setContent(publication.getContent());
         publicationDTO.setImage(publication.getImage());
+        publicationDTO.setImageData(fileSystemStorageService.toByte(publication.getImage()));
         publicationDTO.setUser(publication.getUser() == null ? null : publication.getUser().getId());
         return publicationDTO;
     }
