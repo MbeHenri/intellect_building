@@ -26,7 +26,7 @@ const CartBox: React.FC = () => {
             aria-haspopup="true"
             aria-expanded={toogleDropdown}
             onClick={() => {
-              setToogleDropdown(!toogleDropdown);
+              setToogleDropdown(products.length > 0 && !toogleDropdown);
             }}
           >
             <span className="flaticon-shopping-bag-1"></span>
@@ -34,39 +34,41 @@ const CartBox: React.FC = () => {
               <span className="total-cart">{products.length}</span>
             ) : null}
           </button>
-          <div
-            className={
-              "dropdown-menu pull-right cart-panel" +
-              (toogleDropdown ? " show" : "")
-            }
-            style={{transform: 'translate3d(-220px, 24px, 0px)'}}
-            aria-labelledby="dropdownMenu3"
-          >
-            {products.map((product, i) => {
-              return (
-                <CartProductItem
-                  key={`prod-${i}`}
-                  product={product}
-                  handleDelete={() => {
-                    updateProducts(
-                      products.filter((p) => p.uuid !== product.uuid)
-                    );
-                  }}
-                />
-              );
-            })}
-            <div className="cart-total">
-              Sub Total: <span>{`$${total}`}</span>
+          {products.length > 0 ? (
+            <div
+              className={
+                "dropdown-menu pull-right cart-panel" +
+                (toogleDropdown ? " show" : "")
+              }
+              style={{ transform: "translate3d(-220px, 24px, 0px)" }}
+              aria-labelledby="dropdownMenu3"
+            >
+              {products.map((product, i) => {
+                return (
+                  <CartProductItem
+                    key={`prod-${i}`}
+                    product={product}
+                    handleDelete={() => {
+                      updateProducts(
+                        products.filter((p) => p.uuid !== product.uuid)
+                      );
+                    }}
+                  />
+                );
+              })}
+              <div className="cart-total">
+                Sub Total: <span>{`$${total}`}</span>
+              </div>
+              <ul className="btns-boxed">
+                <li>
+                  <Link to="/cart">View Cart</Link>
+                </li>
+                <li>
+                  <Link to="/checkout">CheckOut</Link>
+                </li>
+              </ul>
             </div>
-            <ul className="btns-boxed">
-              <li>
-                <Link to="/cart">View Cart</Link>
-              </li>
-              <li>
-                <Link to="/checkout">CheckOut</Link>
-              </li>
-            </ul>
-          </div>
+          ) : null}
         </div>
       </div>
     </>

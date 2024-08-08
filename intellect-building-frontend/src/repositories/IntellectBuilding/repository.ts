@@ -1,3 +1,5 @@
+import { UserAuth } from "../../models/user";
+
 class IntellectRepository {
 
     async getPostCategories(): Promise<any> {
@@ -288,6 +290,14 @@ class IntellectRepository {
         </p>`,
             name: "Js Training",
             price: 52
+        }
+    }
+
+    async getToken(login: string, password: string): Promise<UserAuth> {
+        return {
+            login: "",
+            uuid: "",
+            token: ""
         }
     }
 

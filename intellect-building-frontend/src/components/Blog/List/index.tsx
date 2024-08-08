@@ -21,7 +21,6 @@ const PostList: React.FC<Props> = ({ posts }) => {
     <>
       <div className="blog-classic">
         {/* List of publications */}
-        <span id="#top"></span>
         {results.map((post, i) => {
           return <PostItem key={`post-${i}`} post={post} />;
         })}

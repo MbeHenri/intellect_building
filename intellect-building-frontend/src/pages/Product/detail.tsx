@@ -3,7 +3,7 @@ import FooterSection from "../../components/Footer/section";
 import Header from "../../components/Header";
 import ScroolToTop from "../../components/ScroolToTop";
 import TitleSection from "../../components/Title/section";
-import ProductComplete from "../../components/Product/Item/complete";
+import ProductComplete from "../../components/Product/Item/Complete";
 
 function ProductDetail() {
   const { uuid } = useParams<Record<string, string>>();

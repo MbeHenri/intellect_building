@@ -12,28 +12,31 @@ import SiteProvider from "./providers/Site";
 import ServiceProvider from "./providers/Service";
 import ProductDetail from "./pages/Product/detail";
 import Product from "./pages/Product";
+import AuthProvider from "./providers/Auth";
 
 function App() {
   return (
     <Router>
-      <ServiceProvider>
-        <SiteProvider>
-          <CartProvider>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:uuid" element={<BlogDetail />} />
-              <Route path="/training" element={<Product />} />
-              <Route path="/training/:uuid" element={<ProductDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="*" element={<Page404 />} />
-            </Routes>
-          </CartProvider>
-        </SiteProvider>
-      </ServiceProvider>
+      <SiteProvider>
+        <AuthProvider>
+          <ServiceProvider>
+            <CartProvider>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:uuid" element={<BlogDetail />} />
+                <Route path="/training" element={<Product />} />
+                <Route path="/training/:uuid" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="*" element={<Page404 />} />
+              </Routes>
+            </CartProvider>
+          </ServiceProvider>
+        </AuthProvider>
+      </SiteProvider>
     </Router>
   );
 }

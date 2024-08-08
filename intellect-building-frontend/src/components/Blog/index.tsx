@@ -7,6 +7,7 @@ import { PostSimple } from "../../models/post";
 import useService from "../../providers/Service/hooks";
 import { useLoading } from "../../utils/hooks";
 import PostListSkeleton from "./List/Skeleton";
+import EmptyLayer from "../EmptyLayer";
 
 const Blog: React.FC = () => {
   const [currentSeachText, setCurrentSeachText] = useState("");
@@ -47,7 +48,13 @@ const Blog: React.FC = () => {
         <div className="row clearfix">
           {/* <!-- Content Side --> */}
           <div className="content-side col-lg-8 col-md-12 col-sm-12">
-            {loading ? <PostListSkeleton /> : <PostList posts={posts} />}
+            {loading ? (
+              <PostListSkeleton />
+            ) : posts.length > 0 ? (
+              <PostList posts={posts} />
+            ) : (
+              <EmptyLayer text="No posts found" />
+            )}
           </div>
 
           {/* <!-- Sidebar Side --> */}

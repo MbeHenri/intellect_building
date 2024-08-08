@@ -2,6 +2,7 @@ import { Category } from "../models/category";
 import Comment, { CommentSimple } from "../models/comment";
 import Post, { PostSimple } from "../models/post";
 import Product, { ProductSimple } from "../models/product";
+import { UserAuth } from "../models/user";
 import { getIntellectRepository } from "../repositories/IntellectBuilding";
 import IntellectRepository from "../repositories/IntellectBuilding/repository";
 
@@ -9,8 +10,13 @@ import IntellectRepository from "../repositories/IntellectBuilding/repository";
 class BaseService {
     base_rep: IntellectRepository;
 
-    constructor(user?: any) {
+    user?: UserAuth
+
+    constructor(user?: UserAuth) {
         this.base_rep = getIntellectRepository("fake");
+        if (user) {
+            this.user = user
+        }
     }
 
     async getPostCategories(): Promise<Category[]> {

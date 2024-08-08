@@ -3,6 +3,7 @@ import CommentItem from ".";
 import { CommentSimple } from "../../../models/comment";
 import CommentForm from "./Form";
 import CommentDetail from "./Detail";
+import EmptyLayer from "../../EmptyLayer";
 
 interface Props {
   uuidPost: string;
@@ -44,7 +45,7 @@ const CommentHandler: React.FC<Props> = ({ uuidPost, comments }) => {
 
         {currentComment ? (
           <CommentDetail key={`cmt-current`} comment={currentComment} />
-        ) : (
+        ) : comments.length > 0 ? (
           comments.map((cmt, i) => {
             return (
               <CommentItem
@@ -60,6 +61,8 @@ const CommentHandler: React.FC<Props> = ({ uuidPost, comments }) => {
               />
             );
           })
+        ) : (
+          <EmptyLayer text="no comments" />
         )}
       </div>
 
