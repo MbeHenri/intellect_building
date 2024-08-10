@@ -1,0 +1,24 @@
+.profile_icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid #e5c08d;
+}
+
+.dropdown-item.btn_profile {
+    padding: 1rem;
+    background-color: white;
+    transition: all 200ms ease-in-out;
+}
+
+.dropdown-item.btn_profile:hover {
+    background-color: rgba(0, 0, 0, 0.272);
+    background-color: #0d7adf;
+    color: white;
+    transition: all 200ms ease-in-out;
+}
+
+
+.dropdown-item.btn_profile.deconnexion:hover{
+    background-color: #532519;
+}

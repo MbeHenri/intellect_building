@@ -5,6 +5,7 @@ import { compute_total } from "../../utils/function";
 import CartProductItemRow from "./Product/Item/Row";
 import { ProductSimple } from "../../models/product";
 import EmptyLayer from "../EmptyLayer";
+import Button from "../Button";
 
 const CartList: React.FC = () => {
   const { products, tax, updateProducts } = useCart();
@@ -111,8 +112,8 @@ const CartList: React.FC = () => {
               </ul>
             </div>
             <div className="text-left">
-              <Link to="/checkout" className="theme-btn checkout-btn">
-                Proceed to Checkout
+              <Link to="/checkout">
+                <Button type="primary">Proceed to Checkout</Button>
               </Link>
             </div>
           </div>

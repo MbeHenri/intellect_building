@@ -302,11 +302,16 @@ class IntellectRepository {
     }
 
     async getUser(uuid: string): Promise<any> {
-        return {}
+        return {
+            profile: ""
+        }
     }
 
     async getProfile(uuid: string): Promise<any> {
-        return {}
+        return {
+            img: "",
+            name: ""
+        }
     }
 }
 

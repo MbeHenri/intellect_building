@@ -8,6 +8,7 @@ import "./assets/css/style.css";
 import "./assets/css/responsive.css";
 import "./assets/css/default-theme.css";
 import "./assets/css/skeleton.css";
+import "./assets/css/loader.css";
 import favicon from "./assets/images/favicon.png";
 
 function setFavicon(url: string) {

@@ -1,0 +1,17 @@
+.form-control.search-input {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+}
+
+.input-group .form-control:focus {
+    color: #797979;
+    border-color: #0d7adf;
+    box-shadow: none
+}
+
+.input-group .btn:focus {
+    color: #797979;
+    border-color: #0d7adf;
+    box-shadow: none
+}

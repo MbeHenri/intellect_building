@@ -1,11 +1,12 @@
 import React, { ReactNode, createContext, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserAuth } from "../../models/user";
+import { UserAuth, UserRole } from "../../models/user";
 import { useLocalStorage } from "../../utils/hooks";
 import LoginService from "../../services/login";
 
 interface PropsContext {
   user: UserAuth | null;
+  role?: UserRole;
   connexion: (login: string, password: string) => Promise<void>;
   deconnexion: () => Promise<void>;
 }
@@ -24,9 +25,12 @@ const AuthProvider: React.FC<PropsProvider> = ({ children }) => {
     "user",
     null
   );
-  const user = useMemo(() => storedValue, [storedValue]);
-  const setUser = useCallback(setValue, [setValue]);
 
+  const user = useMemo(() => storedValue, [storedValue]);
+
+  const role = useMemo(() => (user ? "manager" : undefined), [user]);
+
+  const setUser = useCallback(setValue, [setValue]);
   const navigate = useNavigate();
 
   // login service
@@ -55,7 +59,7 @@ const AuthProvider: React.FC<PropsProvider> = ({ children }) => {
   }, [setUser, navigate]);
 
   return (
-    <AuthContext.Provider value={{ user, connexion, deconnexion }}>
+    <AuthContext.Provider value={{ user, connexion, deconnexion, role }}>
       {children}
     </AuthContext.Provider>
   );

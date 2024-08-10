@@ -13,6 +13,12 @@ import ServiceProvider from "./providers/Service";
 import ProductDetail from "./pages/Product/detail";
 import Product from "./pages/Product";
 import AuthProvider from "./providers/Auth";
+import SecretProduct from "./pages/Secret/Product";
+import SecretProductAdd from "./pages/Secret/Product/add";
+import SecretPost from "./pages/Secret/Post";
+import SecretPostAdd from "./pages/Secret/Post/add";
+import SecretProductUpdate from "./pages/Secret/Product/update";
+import SecretPostUpdate from "./pages/Secret/Post/update";
 
 function App() {
   return (
@@ -22,15 +28,71 @@ function App() {
           <ServiceProvider>
             <CartProvider>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:uuid" element={<BlogDetail />} />
-                <Route path="/training" element={<Product />} />
-                <Route path="/training/:uuid" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="" element={<Home />} />
+
+                <Route
+                  path="blog/*"
+                  element={
+                    <Routes>
+                      <Route path="" element={<Blog />} />
+                      <Route path=":uuid" element={<BlogDetail />} />
+                      <Route path="*" element={<Page404 />} />
+                    </Routes>
+                  }
+                />
+
+                <Route
+                  path="training/*"
+                  element={
+                    <Routes>
+                      <Route path="" element={<Product />} />
+                      <Route path=":uuid" element={<ProductDetail />} />
+                      <Route path="*" element={<Page404 />} />
+                    </Routes>
+                  }
+                />
+
+                <Route path="cart" element={<Cart />} />
+                <Route path="checkout" element={<Checkout />} />
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+
+                <Route
+                  path="s/*"
+                  element={
+                    <Routes>
+                      <Route
+                        path="training/*"
+                        element={
+                          <Routes>
+                            <Route path="" element={<SecretProduct />} />
+                            <Route path="add" element={<SecretProductAdd />} />
+                            <Route
+                              path="update/:uuid"
+                              element={<SecretProductUpdate />}
+                            />
+                            <Route path="*" element={<Page404 />} />
+                          </Routes>
+                        }
+                      />
+                      <Route
+                        path="post/*"
+                        element={
+                          <Routes>
+                            <Route path="" element={<SecretPost />} />
+                            <Route path="add" element={<SecretPostAdd />} />
+                            <Route
+                              path="update/:uuid"
+                              element={<SecretPostUpdate />}
+                            />
+                            <Route path="*" element={<Page404 />} />
+                          </Routes>
+                        }
+                      />
+                      <Route path="*" element={<Page404 />} />
+                    </Routes>
+                  }
+                />
                 <Route path="*" element={<Page404 />} />
               </Routes>
             </CartProvider>

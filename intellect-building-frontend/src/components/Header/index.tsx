@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import CartBox from "../Cart/box";
 
 import logo from "../../assets/images/logo.png";
@@ -7,6 +7,8 @@ import useSite from "../../providers/Site/hooks";
 import { useScrolling } from "../../utils/hooks";
 import Top from "../Top";
 import { Link } from "react-router-dom";
+import ProfileSessionBouton from "../Profile/Session/Bouton";
+import useAuth from "../../providers/Auth/hooks";
 
 interface Props {
   currentPage?: "home" | "product" | "blog";
@@ -16,12 +18,19 @@ const Header: React.FC<Props> = ({ currentPage }) => {
   const site = useSite();
   const { isScrolling } = useScrolling();
 
+  const { role } = useAuth();
+
+  const [viewProductMenu, setViewProductMenu] = useState(false);
+  const [viewPostMenu, setViewPostMenu] = useState(false);
+
   const openMenu = useCallback(() => {
     document.body.classList.add("mobile-menu-visible");
   }, []);
 
   const closeMenu = useCallback(() => {
     document.body.classList.remove("mobile-menu-visible");
+    setViewPostMenu(false);
+    setViewProductMenu(false);
   }, []);
 
   return (
@@ -146,26 +155,47 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                     <ul className="navigation clearfix">
                       <li
                         className={
-                          currentPage && currentPage === "home" ? "current" : ""
+                          "dropdown " +
+                          (currentPage && currentPage === "home"
+                            ? "current"
+                            : "")
                         }
                       >
                         <Link to="/">Home</Link>
                       </li>
                       <li
                         className={
-                          currentPage && currentPage === "product"
+                          "dropdown " +
+                          (currentPage && currentPage === "product"
                             ? "current"
-                            : ""
+                            : "")
                         }
                       >
                         <Link to="/training">Trainings</Link>
+                        {role ? (
+                          <ul>
+                            <li>
+                              <Link to="/s/training">Management</Link>
+                            </li>
+                          </ul>
+                        ) : null}
                       </li>
                       <li
                         className={
-                          currentPage && currentPage === "blog" ? "current" : ""
+                          "dropdown " +
+                          (currentPage && currentPage === "blog"
+                            ? "current"
+                            : "")
                         }
                       >
                         <Link to="/blog">Blog</Link>
+                        {role ? (
+                          <ul>
+                            <li>
+                              <Link to="/s/post">Management</Link>
+                            </li>
+                          </ul>
+                        ) : null}
                       </li>
                     </ul>
                   </div>
@@ -174,6 +204,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                 {/* <!-- Main Menu End--> */}
                 <div className="outer-box clearfix">
                   <CartBox />
+                  <ProfileSessionBouton />
                 </div>
               </div>
             </div>
@@ -199,14 +230,28 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                   id="navbarSupportedContent"
                 >
                   <ul className="navigation clearfix">
-                    <li className="current">
+                    <li className="dropdown">
                       <Link to="/">Home</Link>
                     </li>
-                    <li>
+                    <li className="dropdown">
                       <Link to="/training">Trainings</Link>
+                      {role ? (
+                        <ul>
+                          <li>
+                            <Link to="/s/training">Management</Link>
+                          </li>
+                        </ul>
+                      ) : null}
                     </li>
-                    <li>
+                    <li className="dropdown">
                       <Link to="/blog">Blog</Link>
+                      {role ? (
+                        <ul>
+                          <li>
+                            <Link to="/s/post">Management</Link>
+                          </li>
+                        </ul>
+                      ) : null}
                     </li>
                   </ul>
                 </div>
@@ -214,6 +259,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
 
               <div className="outer-box clearfix">
                 <CartBox />
+                <ProfileSessionBouton />
               </div>
             </div>
           </div>
@@ -239,20 +285,66 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                 id="navbarSupportedContent"
               >
                 <ul className="navigation clearfix">
-                  <li>
+                  <li className="dropdown">
                     <Link to="/" onClick={closeMenu}>
                       Home
                     </Link>
                   </li>
-                  <li>
+                  <li className="dropdown">
                     <Link to="/training" onClick={closeMenu}>
                       Trainings
                     </Link>
+                    {role ? (
+                      <>
+                        <ul
+                          className={
+                            viewProductMenu ? "d-block fadeIn" : "fadeOut"
+                          }
+                        >
+                          <li>
+                            <Link to="/s/training" onClick={closeMenu}>
+                              Management
+                            </Link>
+                          </li>
+                        </ul>
+                        <div
+                          className="dropdown-btn open"
+                          onClick={() => {
+                            setViewProductMenu(!viewProductMenu);
+                          }}
+                        >
+                          <span className="fa fa-angle-down"></span>
+                        </div>
+                      </>
+                    ) : null}
                   </li>
-                  <li>
+                  <li className="dropdown">
                     <Link to="/blog" onClick={closeMenu}>
                       Blog
                     </Link>
+                    {role ? (
+                      <>
+                        <ul
+                          className={
+                            viewPostMenu ? "d-block fadeIn" : "fadeOut"
+                          }
+                        >
+                          <li>
+                            <Link to="/s/post" onClick={closeMenu}>
+                              Management
+                            </Link>
+                          </li>
+                        </ul>
+                        <div
+                          className="dropdown-btn"
+                          onClick={() => {
+                            setViewPostMenu(!viewPostMenu);
+                          }}
+                        >
+                          <span className="fa fa-angle-down"></span>
+                        </div>
+                      </>
+                    ) : null}
                   </li>
                 </ul>
               </div>

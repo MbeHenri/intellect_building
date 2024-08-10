@@ -45,7 +45,7 @@ class ProdIntellectRepository extends IntellectRepository {
             .then((response) => response.json())
 
         const user = await this.getUser(`${post.user}`)
-        const profile = await this.getUser(`${user.profile}`)
+        const profile = await this.getProfile(`${user.profile}`)
         return {
             uuid: `${post.id}`,
             img: "",

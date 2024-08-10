@@ -2,7 +2,7 @@ import { Category } from "../models/category";
 import Comment, { CommentSimple } from "../models/comment";
 import Post, { PostSimple } from "../models/post";
 import Product, { ProductSimple } from "../models/product";
-import { UserAuth } from "../models/user";
+import { UserAuth, UserProfileSimple } from "../models/user";
 import { getIntellectRepository } from "../repositories/IntellectBuilding";
 import IntellectRepository from "../repositories/IntellectBuilding/repository";
 
@@ -46,6 +46,19 @@ class BaseService {
 
     async getTraining(uuid: string): Promise<Product> {
         return await this.base_rep.getTraining(uuid)
+    }
+
+    async getProfile(): Promise<UserProfileSimple> {
+        if (!this.user) {
+            throw new Error("User is anonym");
+        }
+
+        const user = await this.base_rep.getUser(`${this.user.uuid}`)
+        const profile = await this.base_rep.getProfile(`${user.profile}`)
+        return {
+            img: profile.img,
+            name: profile.name
+        }
     }
 }
 

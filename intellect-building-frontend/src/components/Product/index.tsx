@@ -1,15 +1,20 @@
 import { ProductSimple } from "../../models/product";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useService from "../../providers/Service/hooks";
 import { useLoading, usePagination } from "../../utils/hooks";
 import useSite from "../../providers/Site/hooks";
 import ProductItem from "./Item";
 import EmptyLayer from "../EmptyLayer";
+import ProductItemSkeleton from "./Item/Skeleton";
+import "./index.css";
 
 const NBRE_PER_PAGE = 6;
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<ProductSimple[]>([]);
+
+  const [searchText, setSearchText] = useState("");
+  const [orderBy, setOrderBy] = useState("");
 
   // chargement du service
   const { intbuildService } = useService();
@@ -32,12 +37,25 @@ const ProductList: React.FC = () => {
     return () => {};
   }, [intbuildService, setError, setLoading]);
 
-  const total = products.length;
+  const datas = useMemo(
+    () =>
+      (orderBy === "price"
+        ? [...products].sort((a, b) => {
+            return a.price - b.price;
+          })
+        : products
+      ).filter((e) =>
+        searchText === ""
+          ? true
+          : e.name.toLowerCase().includes(searchText.toLowerCase())
+      ),
+    [orderBy, products, searchText]
+  );
 
   const { nbrePage, currentPage, goTo, results } = usePagination(
-    products,
+    datas,
     NBRE_PER_PAGE,
-    total
+    datas.length
   );
 
   const { scrollToTopTarget } = useSite();
@@ -53,15 +71,18 @@ const ProductList: React.FC = () => {
               <div className="row clearfix">
                 <div className="results-column col-md-6 col-sm-6 col-xs-12">
                   {/* <!-- Search --> */}
-                  <div className="search-box">
-                    <div className="form-group">
-                      <input
-                        type="search"
-                        name="search-field"
-                        value=""
-                        placeholder="Search......"
-                      />
-                      <button type="submit">
+                  <div className="input-group mb-3">
+                    <input
+                      type="search"
+                      value={searchText}
+                      placeholder="Search......"
+                      className="form-control search-input"
+                      onChange={(e) => {
+                        setSearchText(e.target.value);
+                      }}
+                    />
+                    <div className="input-group-append">
+                      <button className="btn">
                         <span className="icon fa fa-search"></span>
                       </button>
                     </div>
@@ -81,7 +102,11 @@ const ProductList: React.FC = () => {
             </div>
 
             {/* skeleton list */}
-            <div className="row"></div>
+            <div className="row">
+              {Array(3).map((_, i) => (
+                <ProductItemSkeleton key={i} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -99,15 +124,18 @@ const ProductList: React.FC = () => {
               <div className="row clearfix">
                 <div className="results-column col-md-6 col-sm-6 col-xs-12">
                   {/* <!-- Search --> */}
-                  <div className="search-box">
-                    <div className="form-group">
-                      <input
-                        type="search"
-                        name="search-field"
-                        value=""
-                        placeholder="Search......"
-                      />
-                      <button type="submit">
+                  <div className="input-group mb-3">
+                    <input
+                      type="search"
+                      value={searchText}
+                      placeholder="Search......"
+                      className="form-control search-input"
+                      onChange={(e) => {
+                        setSearchText(e.target.value);
+                      }}
+                    />
+                    <div className="input-group-append">
+                      <button className="btn">
                         <span className="icon fa fa-search"></span>
                       </button>
                     </div>
@@ -116,96 +144,108 @@ const ProductList: React.FC = () => {
 
                 <div className="select-column pull-right col-md-6 col-sm-6 col-xs-12">
                   <div className="form-group">
-                    <select name="sort-by">
-                      <option>Default Sorting</option>
-                      <option>By Order</option>
-                      <option>By Price</option>
+                    <select
+                      name="sort-by"
+                      onChange={(e) => {
+                        setOrderBy(e.target.value);
+                      }}
+                    >
+                      <option value="">Default Sorting</option>
+                      <option value="base">By Order</option>
+                      <option value="price">By Price</option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
 
-            {products.length > 0 ? (
+            {datas.length > 0 ? (
               <>
                 <div className="row">
                   {results.map((product, i) => {
                     return <ProductItem key={`prod-${i}`} product={product} />;
                   })}
                 </div>
-                {/* <!--Post Share Options--> */}
-                <div className="styled-pagination text-center">
-                  <ul className="clearfix">
-                    <li className="prev">
-                      <a
-                        href={
-                          currentPage > 1
-                            ? "blog?page=" + (currentPage - 1)
-                            : "blog?page=1"
-                        }
-                        onClick={(e) => {
-                          e.preventDefault();
-                          currentPage > 1 &&
-                            scrollToTopTarget &&
-                            scrollToTopTarget();
-                          goTo(currentPage - 1);
-                        }}
-                      >
-                        <span className="fa fa-angle-left"></span>
-                      </a>
-                    </li>
-                    {currentPage - 1 > 1 ? <li>...</li> : null}
+                {nbrePage > 2 ? (
+                  <>
+                    {/* <!--Post Share Options--> */}
+                    <div className="styled-pagination text-center">
+                      <ul className="clearfix">
+                        <li className="prev">
+                          <a
+                            href={
+                              currentPage > 1
+                                ? "blog?page=" + (currentPage - 1)
+                                : "blog?page=1"
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              currentPage > 1 &&
+                                scrollToTopTarget &&
+                                scrollToTopTarget();
+                              goTo(currentPage - 1);
+                            }}
+                          >
+                            <span className="fa fa-angle-left"></span>
+                          </a>
+                        </li>
+                        {currentPage - 1 > 1 ? <li>...</li> : null}
 
-                    {Array(3)
-                      .fill(0)
-                      .map((_, i) => {
-                        const page = currentPage + i - 1;
+                        {Array(3)
+                          .fill(0)
+                          .map((_, i) => {
+                            const page = currentPage + i - 1;
 
-                        if (page >= 1 && page <= nbrePage) {
-                          return (
-                            <li
-                              key={`link-${i}`}
-                              className={page === currentPage ? "active" : ""}
-                            >
-                              <a
-                                href={"blog?page=" + page}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (page !== currentPage) {
-                                    scrollToTopTarget && scrollToTopTarget();
-                                    goTo(page);
+                            if (page >= 1 && page <= nbrePage) {
+                              return (
+                                <li
+                                  key={`link-${i}`}
+                                  className={
+                                    page === currentPage ? "active" : ""
                                   }
-                                }}
-                              >
-                                {page}
-                              </a>
-                            </li>
-                          );
-                        }
-                        return null;
-                      })}
-                    {currentPage + 1 < nbrePage ? <li>...</li> : null}
+                                >
+                                  <a
+                                    href={"blog?page=" + page}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      if (page !== currentPage) {
+                                        scrollToTopTarget &&
+                                          scrollToTopTarget();
+                                        goTo(page);
+                                      }
+                                    }}
+                                  >
+                                    {page}
+                                  </a>
+                                </li>
+                              );
+                            }
+                            return null;
+                          })}
+                        {currentPage + 1 < nbrePage ? <li>...</li> : null}
 
-                    <li className="next">
-                      <a
-                        href={
-                          currentPage < nbrePage
-                            ? "blog?page=" + (currentPage + 1)
-                            : "blog?page=" + nbrePage
-                        }
-                        onClick={(e) => {
-                          e.preventDefault();
-                          currentPage < nbrePage &&
-                            scrollToTopTarget &&
-                            scrollToTopTarget();
-                          goTo(currentPage + 1);
-                        }}
-                      >
-                        <span className="fa fa-angle-right"></span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                        <li className="next">
+                          <a
+                            href={
+                              currentPage < nbrePage
+                                ? "blog?page=" + (currentPage + 1)
+                                : "blog?page=" + nbrePage
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              currentPage < nbrePage &&
+                                scrollToTopTarget &&
+                                scrollToTopTarget();
+                              goTo(currentPage + 1);
+                            }}
+                          >
+                            <span className="fa fa-angle-right"></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </>
+                ) : null}
               </>
             ) : (
               <EmptyLayer text="no trainings found" />

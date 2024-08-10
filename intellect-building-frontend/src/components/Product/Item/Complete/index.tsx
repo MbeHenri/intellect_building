@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import useService from "../../../providers/Service/hooks";
-import { useLoading } from "../../../utils/hooks";
-import Product from "../../../models/product";
+import useService from "../../../../providers/Service/hooks";
+import { useLoading } from "../../../../utils/hooks";
+import Product from "../../../../models/product";
 import parse from "html-react-parser";
-import useCart from "../../../providers/Cart/hooks";
-import placehoderImage from "../../../assets/images/placeholder/2.jpeg";
+import useCart from "../../../../providers/Cart/hooks";
+import placehoderImage from "../../../../assets/images/placeholder/2.jpeg";
+import ProductCompleteSkeleton from "./Skeleton";
 interface Props {
   uuid: string;
 }
@@ -19,7 +20,7 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
   // chargement du service
   const { intbuildService } = useService();
   // etat de chargement des réponses
-  const { setError, setLoading } = useLoading();
+  const { loading, setError, setLoading } = useLoading();
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +37,10 @@ const ProductComplete: React.FC<Props> = ({ uuid }) => {
       });
     return () => {};
   }, [intbuildService, setError, setLoading, uuid]);
+
+  if (loading) {
+    return <ProductCompleteSkeleton />;
+  }
 
   if (product) {
     return (

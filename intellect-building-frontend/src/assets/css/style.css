@@ -10300,7 +10300,7 @@ img {
 
 .shop-form textarea {
 	resize: none;
-	height: 100px !important;
+	height: 100px;
 	overflow: hidden;
 }
 

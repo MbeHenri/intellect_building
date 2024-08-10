@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ProductSimple } from "../../../../models/product";
-import placehoderImage from "../../../../assets/images/placeholder/2.jpeg";
+import { ProductSimple } from "../../../../../models/product";
+import placehoderImage from "../../../../../assets/images/placeholder/2.jpeg";
 
 interface Props {
   product: ProductSimple;

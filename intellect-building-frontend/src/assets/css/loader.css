@@ -1,0 +1,19 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: conic-gradient(#0000, white);
+    animation: spin 1s linear infinite;
+    z-index: 20;
+    display: block;
+}

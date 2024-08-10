@@ -27,10 +27,11 @@
 }
 
 .skeleton-icon {
-    height: 24px;
-    width: 24px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
     margin: 5px;
+    border: 3px solid rgb(118, 27, 27);
 }
 
 .skeleton-box.read-more {
