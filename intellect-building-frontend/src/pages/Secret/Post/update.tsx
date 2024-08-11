@@ -1,18 +1,23 @@
+import { useParams } from "react-router-dom";
 import FooterSection from "../../../components/Footer/section";
 import Header from "../../../components/Header";
-import ProfilePostItemComplete from "../../../components/Profile/Post/Item/Complete";
+import Private from "../../../components/Private";
+import PrivatePostItemComplete from "../../../components/Private/Post/Item/Complete";
 import ScroolToTop from "../../../components/ScroolToTop";
 import TitleSection from "../../../components/Title/section";
 
 function SecretPostUpdate() {
+  const { uuid } = useParams<Record<string, string>>();
   return (
-    <div className="page-wrapper">
-      <Header currentPage="blog" />
-      <TitleSection page="Post Detail" />
-      <ProfilePostItemComplete uuid="10" />
-      <FooterSection />
-      <ScroolToTop />
-    </div>
+    <Private>
+      <div className="page-wrapper">
+        <Header currentPage="blog" />
+        <TitleSection page="Post Detail" />
+        <PrivatePostItemComplete uuid={`${uuid}`} />
+        <FooterSection />
+        <ScroolToTop />
+      </div>
+    </Private>
   );
 }
 

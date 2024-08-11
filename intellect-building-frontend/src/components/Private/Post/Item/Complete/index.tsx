@@ -6,7 +6,7 @@ interface Props {
   uuid?: string;
 }
 
-const ProfilePostItemComplete: React.FC<Props> = ({ uuid }) => {
+const PrivatePostItemComplete: React.FC<Props> = ({ uuid }) => {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [image, setImage] = useState<string>("");
@@ -97,4 +97,4 @@ const ProfilePostItemComplete: React.FC<Props> = ({ uuid }) => {
   );
 };
 
-export default ProfilePostItemComplete;
+export default PrivatePostItemComplete;

@@ -1,27 +1,30 @@
 import { Link } from "react-router-dom";
 import placehoderImage from "../../../../assets/images/placeholder/2.jpeg";
-import { PostSimple } from "../../../../models/post";
+import { ProductSimple } from "../../../../models/product";
 
 interface Props {
-  post: PostSimple;
+  product: ProductSimple;
   handleDelete: () => void;
 }
 
-const ProfilePostItemRow: React.FC<Props> = ({ post, handleDelete }) => {
+const PrivateProductItemRow: React.FC<Props> = ({ product, handleDelete }) => {
   return (
     <tr>
       <td className="prod-column">
         <div className="column-box">
           <figure className="prod-thumb">
-            <Link to={`update/${post.uuid}`}>
-              <img src={post.img === "" ? placehoderImage : post.img} alt="" />
+            <Link to={`update/${product.uuid}`}>
+              <img
+                src={product.img === "" ? placehoderImage : product.img}
+                alt=""
+              />
             </Link>
           </figure>
-          <h6>{post.title}</h6>
+          <h6 className="prod-title">{product.name}</h6>
         </div>
       </td>
-      <td>{post.publisher}</td>
-      <td>{post.summary}</td>
+      <td className="price">{`$${product.price}`}</td>
+      <td className="qty">{product.quantity ?? "–"}</td>
       <td className="remove">
         <a
           href="/"
@@ -38,4 +41,4 @@ const ProfilePostItemRow: React.FC<Props> = ({ post, handleDelete }) => {
   );
 };
 
-export default ProfilePostItemRow;
+export default PrivateProductItemRow;

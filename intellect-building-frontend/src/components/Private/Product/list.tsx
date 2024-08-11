@@ -3,11 +3,11 @@ import { ProductSimple } from "../../../models/product";
 import EmptyLayer from "../../EmptyLayer";
 import { useLoading } from "../../../utils/hooks";
 import useService from "../../../providers/Service/hooks";
-import ProfileProductRowSkeleton from "./Item/Skeleton";
-import ProfileProductItemRow from "./Item";
+import PrivateProductRowSkeleton from "./Item/Skeleton";
+import PrivateProductItemRow from "./Item";
 import { Link } from "react-router-dom";
 
-const ProfileProductList: React.FC = () => {
+const PrivateProductList: React.FC = () => {
   const [products, setProducts] = useState<ProductSimple[]>([]);
 
   // chargement du service
@@ -56,7 +56,7 @@ const ProfileProductList: React.FC = () => {
 
                 <tbody>
                   {Array(2).map((_, i) => {
-                    return <ProfileProductRowSkeleton key={i} />;
+                    return <PrivateProductRowSkeleton key={i} />;
                   })}
                 </tbody>
               </table>
@@ -95,7 +95,7 @@ const ProfileProductList: React.FC = () => {
                 <tbody>
                   {products.map((product, i) => {
                     return (
-                      <ProfileProductItemRow
+                      <PrivateProductItemRow
                         handleDelete={() => handleDelete(product)}
                         product={product}
                         key={i}
@@ -114,4 +114,4 @@ const ProfileProductList: React.FC = () => {
   );
 };
 
-export default ProfileProductList;
+export default PrivateProductList;

@@ -7,7 +7,7 @@ import useSite from "../../providers/Site/hooks";
 import { useScrolling } from "../../utils/hooks";
 import Top from "../Top";
 import { Link } from "react-router-dom";
-import ProfileSessionBouton from "../Profile/Session/Bouton";
+import PrivateSessionBouton from "../Private/Session/Bouton";
 import useAuth from "../../providers/Auth/hooks";
 
 interface Props {
@@ -204,7 +204,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                 {/* <!-- Main Menu End--> */}
                 <div className="outer-box clearfix">
                   <CartBox />
-                  <ProfileSessionBouton />
+                  <PrivateSessionBouton />
                 </div>
               </div>
             </div>
@@ -259,7 +259,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
 
               <div className="outer-box clearfix">
                 <CartBox />
-                <ProfileSessionBouton />
+                <PrivateSessionBouton />
               </div>
             </div>
           </div>

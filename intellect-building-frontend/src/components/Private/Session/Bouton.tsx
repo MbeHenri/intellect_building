@@ -7,7 +7,7 @@ import placeholder from "../../../assets/images/placeholder/user.png";
 import "./index.css";
 import { Link } from "react-router-dom";
 
-const ProfileSessionBouton: React.FC = () => {
+const PrivateSessionBouton: React.FC = () => {
   const { user, deconnexion } = useAuth();
   const [profile, setProfile] = useState<UserProfileSimple | null>(null);
 
@@ -101,4 +101,4 @@ const ProfileSessionBouton: React.FC = () => {
   );
 };
 
-export default ProfileSessionBouton;
+export default PrivateSessionBouton;

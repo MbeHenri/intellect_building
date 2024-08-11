@@ -3,11 +3,11 @@ import { PostSimple } from "../../../models/post";
 import EmptyLayer from "../../EmptyLayer";
 import { useLoading } from "../../../utils/hooks";
 import useService from "../../../providers/Service/hooks";
-import ProfilePostItemRow from "./Item";
+import PrivatePostItemRow from "./Item";
 import { Link } from "react-router-dom";
-import ProfilePostRowSkeleton from "./Item/Skeleton";
+import PrivatePostRowSkeleton from "./Item/Skeleton";
 
-const ProfilePostList: React.FC = () => {
+const PrivatePostList: React.FC = () => {
   const [posts, setPosts] = useState<PostSimple[]>([]);
 
   // chargement du service
@@ -56,7 +56,7 @@ const ProfilePostList: React.FC = () => {
 
                 <tbody>
                   {Array(2).map((_, i) => {
-                    return <ProfilePostRowSkeleton key={i} />;
+                    return <PrivatePostRowSkeleton key={i} />;
                   })}
                 </tbody>
               </table>
@@ -95,7 +95,7 @@ const ProfilePostList: React.FC = () => {
                 <tbody>
                   {posts.map((product, i) => {
                     return (
-                      <ProfilePostItemRow
+                      <PrivatePostItemRow
                         handleDelete={() => handleDelete(product)}
                         post={product}
                         key={i}
@@ -114,4 +114,4 @@ const ProfilePostList: React.FC = () => {
   );
 };
 
-export default ProfilePostList;
+export default PrivatePostList;

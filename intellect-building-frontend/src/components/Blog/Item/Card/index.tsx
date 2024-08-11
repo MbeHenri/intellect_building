@@ -13,7 +13,7 @@ const PostItemCard: React.FC<Props> = ({ post }) => {
   const { scrollToTopTarget } = useSite();
   return (
     <>
-      <div className="news-block-three col">
+      <div className="news-block-three col-xs-12 col-md-6">
         <div className="inner-box">
           <div className="image">
             <Link

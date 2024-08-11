@@ -5,7 +5,7 @@ interface Props {
   uuid?: String;
 }
 
-const ProfileProductItemComplete: React.FC<Props> = ({ uuid }) => {
+const PrivateProductItemComplete: React.FC<Props> = ({ uuid }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   //const [file, setFile] = useState<File | null>(null);
@@ -79,4 +79,4 @@ const ProfileProductItemComplete: React.FC<Props> = ({ uuid }) => {
   );
 };
 
-export default ProfileProductItemComplete;
+export default PrivateProductItemComplete;
