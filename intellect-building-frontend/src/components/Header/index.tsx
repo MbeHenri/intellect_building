@@ -16,6 +16,10 @@ interface Props {
 
 const Header: React.FC<Props> = ({ currentPage }) => {
   const site = useSite();
+  const toTop = useCallback(() => {
+    site.scrollToTopTarget && site.scrollToTopTarget(100);
+  }, [site]);
+
   const { isScrolling } = useScrolling();
 
   const { role } = useAuth();
@@ -29,9 +33,10 @@ const Header: React.FC<Props> = ({ currentPage }) => {
 
   const closeMenu = useCallback(() => {
     document.body.classList.remove("mobile-menu-visible");
+    toTop();
     setViewPostMenu(false);
     setViewProductMenu(false);
-  }, []);
+  }, [toTop]);
 
   return (
     <>
@@ -161,7 +166,9 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                             : "")
                         }
                       >
-                        <Link to="/">Home</Link>
+                        <Link onClick={toTop} to="/">
+                          Home
+                        </Link>
                       </li>
                       <li
                         className={
@@ -171,11 +178,15 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                             : "")
                         }
                       >
-                        <Link to="/training">Trainings</Link>
+                        <Link onClick={toTop} to="/training">
+                          Trainings
+                        </Link>
                         {role ? (
                           <ul>
                             <li>
-                              <Link to="/s/training">Management</Link>
+                              <Link onClick={toTop} to="/s/training">
+                                Management
+                              </Link>
                             </li>
                           </ul>
                         ) : null}
@@ -188,11 +199,15 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                             : "")
                         }
                       >
-                        <Link to="/blog">Blog</Link>
+                        <Link onClick={toTop} to="/blog">
+                          Blog
+                        </Link>
                         {role ? (
                           <ul>
                             <li>
-                              <Link to="/s/post">Management</Link>
+                              <Link onClick={toTop} to="/s/post">
+                                Management
+                              </Link>
                             </li>
                           </ul>
                         ) : null}
@@ -231,24 +246,34 @@ const Header: React.FC<Props> = ({ currentPage }) => {
                 >
                   <ul className="navigation clearfix">
                     <li className="dropdown">
-                      <Link to="/">Home</Link>
+                      <Link onClick={toTop} to="/">
+                        Home
+                      </Link>
                     </li>
                     <li className="dropdown">
-                      <Link to="/training">Trainings</Link>
+                      <Link onClick={toTop} to="/training">
+                        Trainings
+                      </Link>
                       {role ? (
                         <ul>
                           <li>
-                            <Link to="/s/training">Management</Link>
+                            <Link onClick={toTop} to="/s/training">
+                              Management
+                            </Link>
                           </li>
                         </ul>
                       ) : null}
                     </li>
                     <li className="dropdown">
-                      <Link to="/blog">Blog</Link>
+                      <Link onClick={toTop} to="/blog">
+                        Blog
+                      </Link>
                       {role ? (
                         <ul>
                           <li>
-                            <Link to="/s/post">Management</Link>
+                            <Link onClick={toTop} to="/s/post">
+                              Management
+                            </Link>
                           </li>
                         </ul>
                       ) : null}
@@ -275,7 +300,7 @@ const Header: React.FC<Props> = ({ currentPage }) => {
 
           <nav className="menu-box">
             <div className="nav-logo">
-              <Link to="/">
+              <Link onClick={toTop} to="/">
                 <img src={logo_2} alt="Logo" title="" />
               </Link>
             </div>

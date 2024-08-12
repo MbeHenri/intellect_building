@@ -6,9 +6,14 @@ import CartProductItemRow from "./Product/Item/Row";
 import { ProductSimple } from "../../models/product";
 import EmptyLayer from "../EmptyLayer";
 import Button from "../Button";
+import useSite from "../../providers/Site/hooks";
 
 const CartList: React.FC = () => {
   const { products, tax, updateProducts } = useCart();
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
 
   const subTotal = useMemo(() => compute_total(products), [products]);
 
@@ -112,7 +117,7 @@ const CartList: React.FC = () => {
               </ul>
             </div>
             <div className="text-left">
-              <Link to="/checkout">
+              <Link onClick={toTop} to="/checkout">
                 <Button type="primary">Proceed to Checkout</Button>
               </Link>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { UserProfileSimple } from "../../../models/user";
 import useAuth from "../../../providers/Auth/hooks";
 import useService from "../../../providers/Service/hooks";
@@ -6,6 +6,7 @@ import { useLoading } from "../../../utils/hooks";
 import placeholder from "../../../assets/images/placeholder/user.png";
 import "./index.css";
 import { Link } from "react-router-dom";
+import useSite from "../../../providers/Site/hooks";
 
 const PrivateSessionBouton: React.FC = () => {
   const { user, deconnexion } = useAuth();
@@ -15,6 +16,28 @@ const PrivateSessionBouton: React.FC = () => {
   const { loading, setLoading } = useLoading();
 
   const [toogleDropdown, setToogleDropdown] = useState(false);
+
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setToogleDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -44,7 +67,7 @@ const PrivateSessionBouton: React.FC = () => {
     return (
       <>
         <div className="btn-box">
-          <Link to="/login" className="quote-btn theme-btn">
+          <Link onClick={toTop} to="/login" className="quote-btn theme-btn">
             <span className="fa fa-unlock-alt mr-1"></span> Login
           </Link>
         </div>
@@ -55,7 +78,7 @@ const PrivateSessionBouton: React.FC = () => {
   return (
     <>
       {/* <!-- Cart Box --> */}
-      <div className="cart-box ml-2 mt-1 mr-0">
+      <div className="cart-box ml-2 mt-1 mr-0" ref={dropdownRef}>
         <div className={"dropdown" + (toogleDropdown ? " show" : "")}>
           <button
             className="cart-box-btn dropdown-toggle my-0"
@@ -82,7 +105,7 @@ const PrivateSessionBouton: React.FC = () => {
             }
             aria-labelledby="dropdownMenu3"
           >
-            <Link className="dropdown-item btn_profile" to="*">
+            <Link onClick={toTop} className="dropdown-item btn_profile" to="*">
               <span className="fa fa-user pr-3"></span>
               My Profile
             </Link>

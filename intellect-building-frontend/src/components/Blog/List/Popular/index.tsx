@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useService from "../../../../providers/Service/hooks";
 import { useLoading } from "../../../../utils/hooks";
 import { PostSimple } from "../../../../models/post";
 import placeholder from "../../../../assets/images/placeholder/2.jpeg";
 import EmptyLayer from "../../../EmptyLayer";
+import useSite from "../../../../providers/Site/hooks";
 
 const PopularPostList: React.FC = () => {
   const [popularPosts, setPopularPosts] = useState<PostSimple[]>([]);
+
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
 
   // chargement du service
   const { intbuildService } = useService();
@@ -51,7 +57,7 @@ const PopularPostList: React.FC = () => {
               <article key={`post-${i}`} className="post">
                 <figure className="post-thumb">
                   <img src={post.img === "" ? placeholder : post.img} alt="" />
-                  <Link to={"/blog/" + post.uuid} className="overlay-box">
+                  <Link onClick={toTop} to={"/blog/" + post.uuid} className="overlay-box">
                     <span className="icon fa fa-link"></span>
                   </Link>
                 </figure>

@@ -3626,7 +3626,7 @@ img {
 	width: 374px;
 	height: 249px;
 	z-index: -2;
-	/* background: url(../images/background/pattern-3.png) no-repeat; */
+	background: url(../images/backgroud/pattern-7.png) no-repeat;
 }
 
 .news-block .inner-box .lower-content .post-meta {
@@ -6831,7 +6831,7 @@ img {
 	width: 374px;
 	bottom: -50px;
 	z-index: -2;
-	/* background: url(../images/background/pattern-3.png) repeat; */
+	background: url(../images/backgroud/pattern-7.png) repeat;
 	background-position: right bottom;
 }
 
@@ -8374,10 +8374,10 @@ img {
 	content: '';
 	top: 0px;
 	right: -100px;
-	width: 570px;
-	height: 950px;
+	width: 80%;
+	height: 107%;
 	z-index: -2;
-	/* background: url(../images/background/pattern-10.png) no-repeat; */
+	background: url(../images/backgroud/pattern-7.png) no-repeat;
 }
 
 .news-detail .inner-box .lower-content .post-meta {

@@ -1,22 +1,45 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CartProductItem from "./Product/Item";
 import { compute_total } from "../../utils/function";
 import useCart from "../../providers/Cart/hooks";
+import useSite from "../../providers/Site/hooks";
 
 const CartBox: React.FC = () => {
   const { products, updateProducts } = useCart();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const total = useMemo(() => {
     return compute_total(products);
   }, [products]);
 
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
+
   const [toogleDropdown, setToogleDropdown] = useState(false);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setToogleDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
       {/* <!-- Cart Box --> */}
-      <div className="cart-box mr-0">
+      <div className="cart-box mr-0" ref={dropdownRef}>
         <div className={"dropdown" + (toogleDropdown ? " show" : "")}>
           <button
             className="cart-box-btn dropdown-toggle"
@@ -61,10 +84,14 @@ const CartBox: React.FC = () => {
               </div>
               <ul className="btns-boxed">
                 <li>
-                  <Link to="/cart">View Cart</Link>
+                  <Link onClick={toTop} to="/cart">
+                    View Cart
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/checkout">CheckOut</Link>
+                  <Link onClick={toTop} to="/checkout">
+                    CheckOut
+                  </Link>
                 </li>
               </ul>
             </div>

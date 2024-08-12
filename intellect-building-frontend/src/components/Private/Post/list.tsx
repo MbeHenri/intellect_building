@@ -6,9 +6,15 @@ import useService from "../../../providers/Service/hooks";
 import PrivatePostItemRow from "./Item";
 import { Link } from "react-router-dom";
 import PrivatePostRowSkeleton from "./Item/Skeleton";
+import useSite from "../../../providers/Site/hooks";
 
 const PrivatePostList: React.FC = () => {
   const [posts, setPosts] = useState<PostSimple[]>([]);
+
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
 
   // chargement du service
   const { intbuildService } = useService();
@@ -75,7 +81,11 @@ const PrivatePostList: React.FC = () => {
           <div className="cart-outer">
             <div className="table-outer">
               <div className="pull-right">
-                <Link to="add" className="theme-btn btn-style-two">
+                <Link
+                  onClick={toTop}
+                  to="add"
+                  className="theme-btn btn-style-two"
+                >
                   <span className="txt">
                     <span className="fa fa-plus pr-2"></span>Add
                   </span>

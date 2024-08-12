@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { ProductSimple } from "../../../../../models/product";
 import placehoderImage from "../../../../../assets/images/placeholder/2.jpeg";
+import useSite from "../../../../../providers/Site/hooks";
+import { useCallback } from "react";
 
 interface Props {
   product: ProductSimple;
@@ -13,12 +15,17 @@ const CartProductItemRow: React.FC<Props> = ({
   handleChangeQuantity,
   handleDelete,
 }) => {
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
+
   return (
     <tr>
       <td className="prod-column">
         <div className="column-box">
           <figure className="prod-thumb">
-            <Link to={`/training/${product.uuid}`}>
+            <Link onClick={toTop} to={`/training/${product.uuid}`}>
               <img
                 src={product.img === "" ? placehoderImage : product.img}
                 alt=""

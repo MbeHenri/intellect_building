@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import FooterSection from "../../components/Footer/section";
 import background from "../../assets/images/backgroud/6.jpeg";
+import useSite from "../../providers/Site/hooks";
+import { useCallback } from "react";
 
 function Page404() {
+  const { scrollToTopTarget } = useSite();
+  const toTop = useCallback(() => {
+    scrollToTopTarget && scrollToTopTarget(100);
+  }, [scrollToTopTarget]);
   return (
     <div className="page-wrapper">
       <section
@@ -16,7 +22,7 @@ function Page404() {
             <div className="text">
               Sorry, but the page you are looking for does not existing
             </div>
-            <Link to="/" className="theme-btn btn-style-one">
+            <Link onClick={toTop} to="/" className="theme-btn btn-style-one">
               <span className="txt">Go to home page</span>
             </Link>
           </div>

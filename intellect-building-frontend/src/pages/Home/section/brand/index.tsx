@@ -2,7 +2,11 @@ import React from "react";
 import backgound_1 from "../../../../assets/images/backgroud/2.jpeg";
 import "./index.css";
 
-const HomeSlider: React.FC = () => {
+interface Props {
+  toWhatWeDo?: () => void;
+}
+
+const HomeSlider: React.FC<Props> = ({ toWhatWeDo }) => {
   return (
     <>
       {/* <!--Main Slider--> */}
@@ -36,6 +40,7 @@ const HomeSlider: React.FC = () => {
         <div
           className="mouse-btn-down scroll-to-target"
           data-target=".what-we-section"
+          onClick={toWhatWeDo}
         ></div>
       </section>
       {/* <!--End Main Slider--> */}

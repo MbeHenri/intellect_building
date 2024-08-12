@@ -1,11 +1,15 @@
 import React from "react";
 import background from "../../../assets/images/backgroud/pattern-7.png";
 
-const ServiceSection: React.FC = () => {
+interface Props {
+  whatWeDoRef?: React.RefObject<HTMLDivElement>;
+}
+
+const ServiceSection: React.FC<Props> = ({ whatWeDoRef }) => {
   return (
     <>
       {/* <!-- What We Section --> */}
-      <section className="what-we-section">
+      <section className="what-we-section" ref={whatWeDoRef}>
         <div
           className="pattern-layer"
           style={{ backgroundImage: `url(${background})` }}
