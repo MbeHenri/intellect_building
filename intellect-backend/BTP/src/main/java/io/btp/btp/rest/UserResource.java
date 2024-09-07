@@ -1,6 +1,6 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.UserDTO;
+import io.btp.btp.model.input.UserDTO;
 import io.btp.btp.service.UserService;
 import io.btp.btp.util.ReferencedWarning;
 import io.btp.btp.util.exception.ReferencedException;

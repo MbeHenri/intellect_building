@@ -1,7 +1,7 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.input.CategoryDTO;
-import io.btp.btp.service.CategoryService;
+import io.btp.btp.model.input.CommentDTO;
+import io.btp.btp.service.CommentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -19,43 +19,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/api/categories", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CategoryResource {
+@RequestMapping(value = "/api/comments", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CommentResource {
 
-    private final CategoryService categoryService;
+    private final CommentService commentService;
 
-    public CategoryResource(final CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public CommentResource(final CommentService commentService) {
+        this.commentService = commentService;
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.findAll());
+    public ResponseEntity<List<CommentDTO>> getAllComments() {
+        return ResponseEntity.ok(commentService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategory(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(categoryService.get(id));
+    public ResponseEntity<CommentDTO> getComment(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(commentService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createCategory(@RequestBody @Valid final CategoryDTO categoryDTO) {
-        final Long createdId = categoryService.create(categoryDTO);
+    public ResponseEntity<Long> createComment(@RequestBody @Valid final CommentDTO commentDTO) {
+        final Long createdId = commentService.create(commentDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateCategory(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final CategoryDTO categoryDTO) {
-        categoryService.update(id, categoryDTO);
+    public ResponseEntity<Long> updateComment(@PathVariable(name = "id") final Long id,
+            @RequestBody @Valid final CommentDTO commentDTO) {
+        commentService.update(id, commentDTO);
         return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") final Long id) {
-        categoryService.delete(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable(name = "id") final Long id) {
+        commentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

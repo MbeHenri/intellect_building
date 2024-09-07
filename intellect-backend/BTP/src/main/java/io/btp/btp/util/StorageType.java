@@ -1,4 +1,4 @@
-package io.btp.btp.service.storage;
+package io.btp.btp.util;
 
 public enum StorageType {
     PROFILE_PHOTO("profile_photo"),

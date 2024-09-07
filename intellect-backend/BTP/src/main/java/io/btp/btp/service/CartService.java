@@ -3,7 +3,7 @@ package io.btp.btp.service;
 import io.btp.btp.domain.Cart;
 import io.btp.btp.domain.Formation;
 import io.btp.btp.domain.User;
-import io.btp.btp.model.CartDTO;
+import io.btp.btp.model.input.CartDTO;
 import io.btp.btp.repos.CartRepository;
 import io.btp.btp.repos.FormationRepository;
 import io.btp.btp.repos.UserRepository;

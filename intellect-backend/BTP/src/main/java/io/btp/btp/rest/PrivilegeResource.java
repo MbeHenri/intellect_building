@@ -1,6 +1,6 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.PrivilegeDTO;
+import io.btp.btp.model.input.PrivilegeDTO;
 import io.btp.btp.service.PrivilegeService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;

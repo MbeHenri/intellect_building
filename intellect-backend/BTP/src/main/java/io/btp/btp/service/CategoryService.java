@@ -2,7 +2,7 @@ package io.btp.btp.service;
 
 import io.btp.btp.domain.Category;
 import io.btp.btp.domain.Publication;
-import io.btp.btp.model.CategoryDTO;
+import io.btp.btp.model.input.CategoryDTO;
 import io.btp.btp.repos.CategoryRepository;
 import io.btp.btp.repos.PublicationRepository;
 import io.btp.btp.util.exception.NotFoundException;
@@ -55,6 +55,11 @@ public class CategoryService {
 
     public void delete(final Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public CategoryDTO findByLabel(String label){
+        Category category =   categoryRepository.findFirstByLabel(label).orElseThrow(NotFoundException::new);
+        return mapToDTO(category, new CategoryDTO());
     }
 
     private CategoryDTO mapToDTO(final Category category, final CategoryDTO categoryDTO) {

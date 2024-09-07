@@ -1,7 +1,7 @@
 package io.btp.btp.service;
 
 import io.btp.btp.domain.Privilege;
-import io.btp.btp.model.PrivilegeDTO;
+import io.btp.btp.model.input.PrivilegeDTO;
 import io.btp.btp.repos.PrivilegeRepository;
 import io.btp.btp.repos.RoleRepository;
 import io.btp.btp.util.exception.NotFoundException;
@@ -57,6 +57,10 @@ public class PrivilegeService {
         roleRepository.findAllByPrivileges(privilege)
                 .forEach(role -> role.getPrivileges().remove(privilege));
         privilegeRepository.delete(privilege);
+    }
+
+    public long count() {
+    	return privilegeRepository.count();
     }
 
     private PrivilegeDTO mapToDTO(final Privilege privilege, final PrivilegeDTO privilegeDTO) {

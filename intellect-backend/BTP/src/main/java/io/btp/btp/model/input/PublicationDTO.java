@@ -1,4 +1,4 @@
-package io.btp.btp.model;
+package io.btp.btp.model.input;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,6 +11,10 @@ import lombok.Setter;
 public class PublicationDTO {
 
     private Long id;
+
+    @NotNull
+    @Size(max = 255)
+    private String title;
 
     @NotNull
     @Size(max = 255)
@@ -29,14 +33,15 @@ public class PublicationDTO {
     }
 
 
-    public PublicationDTO(String content, String image, Long user){
+    public PublicationDTO(String title, String content, String image, Long user){
+        this.title = title;
         this.content = content;
         this.image = image;
         this.user = user;
     }
 
-    public PublicationDTO(String content, String image, Long user, byte[] imageData){
-        this(content, image, user);
+    public PublicationDTO(String title, String content, String image, Long user, byte[] imageData){
+        this(title, content, image, user);
         this.imageData = imageData;
     }
 

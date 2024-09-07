@@ -1,15 +1,15 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.ProfileDTO;
+import io.btp.btp.config.StorageProperties;
+import io.btp.btp.model.input.ProfileDTO;
 import io.btp.btp.service.ProfileService;
-import io.btp.btp.service.storage.FileSystemStorageService;
-import io.btp.btp.service.storage.StorageType;
+import io.btp.btp.util.FileSystemStorage;
 import io.btp.btp.util.ReferencedWarning;
+import io.btp.btp.util.StorageType;
 import io.btp.btp.util.exception.ReferencedException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
-
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileResource {
 
     private final ProfileService profileService;
-    private final FileSystemStorageService fileSystemStorageService;
+    private final StorageProperties storageProperties;
 
-    public ProfileResource(final ProfileService profileService, final FileSystemStorageService fileSystemStorageService) {
+    public ProfileResource(final ProfileService profileService, final StorageProperties storageProperties) {
         this.profileService = profileService;
-        this.fileSystemStorageService = fileSystemStorageService;
+        this.storageProperties = storageProperties;
     }
 
     @GetMapping
@@ -58,9 +57,9 @@ public class ProfileResource {
         @RequestParam(value = "photo", required = false) MultipartFile photo) throws IOException {
         
         ProfileDTO profileDTO =  ProfileDTO.builder().name(name)
-                            .dateOfbirth(dateOfBirth)
+                            .dateOfBirth(dateOfBirth)
                             .description(description)
-                            .photo(photo != null && !photo.isEmpty() ? fileSystemStorageService.store(photo, StorageType.PROFILE_PHOTO):null)
+                            .photo(photo != null && !photo.isEmpty() ? FileSystemStorage.store(photo, Paths.get(storageProperties.getLocation()), StorageType.PROFILE_PHOTO):null)
                             .build();
         final Long createdId = profileService.create(profileDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
@@ -74,9 +73,9 @@ public class ProfileResource {
         @RequestParam(value = "photo", required = false) MultipartFile photo) throws IOException {
         
         ProfileDTO profileDTO =  ProfileDTO.builder().name(name)
-            .dateOfbirth(dateOfBirth)
+            .dateOfBirth(dateOfBirth)
             .description(description)
-            .photo(photo != null && !photo.isEmpty() ? fileSystemStorageService.store(photo, StorageType.PROFILE_PHOTO):null)
+            .photo(photo != null && !photo.isEmpty() ? FileSystemStorage.store(photo, Paths.get(storageProperties.getLocation()), StorageType.PROFILE_PHOTO):null)
             .build();
             
         profileService.update(id, profileDTO);

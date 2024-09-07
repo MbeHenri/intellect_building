@@ -49,8 +49,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String name;
 
     @OneToMany(mappedBy = "user")
     private Set<Publication> publications;
@@ -65,6 +63,9 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", nullable = false, unique = true)
     private Profile profile;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

@@ -1,4 +1,4 @@
-package io.btp.btp.model;
+package io.btp.btp.model.input;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;

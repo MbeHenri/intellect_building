@@ -40,14 +40,14 @@ public class Profile {
     )
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column
     private String sexe;
 
     @Column
-    private LocalDate dateOfbirth;
+    private LocalDate dateOfBirth;
 
     @Column
     private String description;

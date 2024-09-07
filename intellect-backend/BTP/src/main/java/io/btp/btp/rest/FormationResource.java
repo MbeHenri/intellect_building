@@ -1,13 +1,13 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.FormationDTO;
+import io.btp.btp.config.StorageProperties;
+import io.btp.btp.model.input.FormationDTO;
 import io.btp.btp.service.FormationService;
-import io.btp.btp.service.storage.FileSystemStorageService;
-import io.btp.btp.service.storage.StorageType;
+import io.btp.btp.util.FileSystemStorage;
+import io.btp.btp.util.StorageType;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
-
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class FormationResource {
 
     private final FormationService formationService;
-    private final FileSystemStorageService fileSystemStorageService;
+    private final StorageProperties storageProperties;
 
-    public FormationResource(final FormationService formationService, final FileSystemStorageService fileSystemStorageService) {
+    public FormationResource(final FormationService formationService, final StorageProperties storageProperties) {
         this.formationService = formationService;
-        this.fileSystemStorageService = fileSystemStorageService;
+        this.storageProperties = storageProperties;
     }
 
     @GetMapping
@@ -54,7 +53,7 @@ public class FormationResource {
         @RequestParam(value = "description", required = false) String description,
         @RequestParam("pdfFile") MultipartFile pdfFile) throws IOException {
 
-        String pdfFilePath = fileSystemStorageService.store(pdfFile, StorageType.FORMATION_PDF);
+        String pdfFilePath = FileSystemStorage.store(pdfFile, Paths.get(storageProperties.getLocation()), StorageType.FORMATION_PDF);
         
         FormationDTO formationDTO = description != null ? new FormationDTO(name, price, description, pdfFilePath) : new FormationDTO(name, price, pdfFilePath);
 
@@ -69,7 +68,7 @@ public class FormationResource {
         @RequestParam(value = "description", required = false) String description,
         @RequestParam("pdfFile") MultipartFile pdfFile) throws IOException {
         
-        String pdfFilePath = fileSystemStorageService.store(pdfFile, StorageType.FORMATION_PDF);
+        String pdfFilePath = FileSystemStorage.store(pdfFile, Paths.get(storageProperties.getLocation()), StorageType.FORMATION_PDF);
         FormationDTO formationDTO = description != null ? new FormationDTO(name, price, description, pdfFilePath) : new FormationDTO(name, price, pdfFilePath);
         formationService.update(id, formationDTO);
         return ResponseEntity.ok(id);

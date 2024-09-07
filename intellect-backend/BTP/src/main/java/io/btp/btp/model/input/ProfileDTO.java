@@ -1,4 +1,4 @@
-package io.btp.btp.model;
+package io.btp.btp.model.input;
 
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -21,15 +21,12 @@ public class ProfileDTO {
     @Size(max = 255)
     private String sexe;
 
-    private LocalDate dateOfbirth;
+    private LocalDate dateOfBirth;
 
     @Size(max = 255)
     private String description;
 
     @Size(max = 255)
     private String photo;
-
-
-    private byte[] photoData;
 
 }

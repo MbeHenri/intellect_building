@@ -1,4 +1,4 @@
-package io.btp.btp.service.storage;
+package io.btp.btp.util;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -14,28 +14,19 @@ import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.btp.btp.config.StorageProperties;
 import io.btp.btp.util.exception.StorageEmptyException;
 import io.btp.btp.util.exception.StorageException;
 import io.btp.btp.util.exception.StorageFileNotFoundException;
 
-@Service
-public class FileSystemStorageService implements StorageService {
 
-	private final Path rootLocation;
+public class FileSystemStorage {
 
-	public FileSystemStorageService(StorageProperties properties) {
-		this.rootLocation = Paths.get(properties.getLocation());
-	}
-
-	@Override
-	public String store(MultipartFile file, StorageType storageType) throws IOException {
+	public static String store(MultipartFile file, Path rootLocation, StorageType storageType) throws IOException {
 		String fileName = generateUniqueFileName(file.getOriginalFilename());
-		Path destinationDirectory = this.rootLocation.resolve(storageType.getFolder());
+		Path destinationDirectory = rootLocation.resolve(storageType.getFolder());
 		Path destinationFile = destinationDirectory.resolve(fileName);
 
 		try {
@@ -48,7 +39,7 @@ public class FileSystemStorageService implements StorageService {
 
 			return destinationFile.toString();
 		} catch (NoSuchFileException e) {
-			init();
+			init(rootLocation);
 			Files.createDirectories(destinationDirectory);
 			Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
 
@@ -56,7 +47,7 @@ public class FileSystemStorageService implements StorageService {
 		}
 	}
 
-	private String generateUniqueFileName(String originalFilename) {
+	private static String generateUniqueFileName(String originalFilename) {
 		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
 		String randomUUID = UUID.randomUUID().toString();
 		String fileExtension = extractFileExtension(originalFilename);
@@ -64,7 +55,7 @@ public class FileSystemStorageService implements StorageService {
 		return timestamp + "_" + randomUUID + fileExtension;
 	}
 
-	private String extractFileExtension(String filename) {
+	private static String extractFileExtension(String filename) {
 		int extensionIndex = filename.lastIndexOf(".");
 		if (extensionIndex != -1 && extensionIndex < filename.length() - 1) {
 			return filename.substring(extensionIndex);
@@ -72,26 +63,24 @@ public class FileSystemStorageService implements StorageService {
 		return "";
 	}
 
-	@Override
-	public Stream<Path> loadAll() {
+	public static Stream<Path> loadAll(Path rootLocation) {
 		try {
-			return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
-					.map(this.rootLocation::relativize);
+			return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation))
+					.map(rootLocation::relativize);
 		} catch (IOException e) {
 			throw new StorageException("Failed to read stored files", e);
 		}
 
 	}
 
-	@Override
-	public Path load(String filename) {
+
+	public static Path load(String filename, Path rootLocation) {
 		return rootLocation.resolve(filename);
 	}
 
-	@Override
-	public Resource loadAsResource(String filename) {
+	public static Resource loadAsResource(String filename, Path rootLocation) {
 		try {
-			Path file = load(filename);
+			Path file = load(filename, rootLocation);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -104,24 +93,22 @@ public class FileSystemStorageService implements StorageService {
 		}
 	}
 
-	@Override
-	public void deleteAll() {
+
+	public static void deleteAll(Path rootLocation) {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
-	@Override
-	public void init() throws IOException {
+	public static void init(Path rootLocation) throws IOException {
 		Files.createDirectories(rootLocation);
 	}
 
-	@Override
-	public void deleteFile(String filename) throws IOException {
+
+	public static void deleteFile(String filename) throws IOException {
 		Path path = Paths.get(filename);
 		Files.delete(path);
 	}
 
-	@Override
-	public byte[] toByte(String  filePath) {
+	public static byte[] toByte(String  filePath) {
         String audioFilePath = filePath;
 
         if (audioFilePath == null) {

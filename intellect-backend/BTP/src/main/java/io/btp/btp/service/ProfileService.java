@@ -2,10 +2,9 @@ package io.btp.btp.service;
 
 import io.btp.btp.domain.Profile;
 import io.btp.btp.domain.User;
-import io.btp.btp.model.ProfileDTO;
+import io.btp.btp.model.input.ProfileDTO;
 import io.btp.btp.repos.ProfileRepository;
 import io.btp.btp.repos.UserRepository;
-import io.btp.btp.service.storage.FileSystemStorageService;
 import io.btp.btp.util.ReferencedWarning;
 import io.btp.btp.util.exception.NotFoundException;
 
@@ -19,13 +18,12 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
-    private final FileSystemStorageService fileSystemStorageService;
+
 
     public ProfileService(final ProfileRepository profileRepository,
-            final UserRepository userRepository, final FileSystemStorageService fileSystemStorageService) {
+            final UserRepository userRepository) {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
-        this.fileSystemStorageService = fileSystemStorageService;
     }
 
     public List<ProfileDTO> findAll() {
@@ -62,17 +60,16 @@ public class ProfileService {
         profileDTO.setId(profile.getId());
         profileDTO.setName(profile.getName());
         profileDTO.setSexe(profile.getSexe());
-        profileDTO.setDateOfbirth(profile.getDateOfbirth());
+        profileDTO.setDateOfBirth(profile.getDateOfBirth());
         profileDTO.setDescription(profile.getDescription());
         profileDTO.setPhoto(profile.getPhoto());
-        profileDTO.setPhotoData(fileSystemStorageService.toByte(profile.getPhoto()));
         return profileDTO;
     }
 
     private Profile mapToEntity(final ProfileDTO profileDTO, final Profile profile) {
         profile.setName(profileDTO.getName());
         profile.setSexe(profileDTO.getSexe());
-        profile.setDateOfbirth(profileDTO.getDateOfbirth());
+        profile.setDateOfBirth(profileDTO.getDateOfBirth());
         profile.setDescription(profileDTO.getDescription());
         profile.setPhoto(profileDTO.getPhoto());
         return profile;

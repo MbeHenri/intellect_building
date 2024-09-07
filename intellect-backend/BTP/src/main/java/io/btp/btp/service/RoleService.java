@@ -3,7 +3,7 @@ package io.btp.btp.service;
 import io.btp.btp.domain.Privilege;
 import io.btp.btp.domain.Role;
 import io.btp.btp.domain.User;
-import io.btp.btp.model.RoleDTO;
+import io.btp.btp.model.input.RoleDTO;
 import io.btp.btp.repos.PrivilegeRepository;
 import io.btp.btp.repos.RoleRepository;
 import io.btp.btp.repos.UserRepository;
@@ -60,6 +60,29 @@ public class RoleService {
 
     public void delete(final Long id) {
         roleRepository.deleteById(id);
+    }
+
+    public long count() {
+    	return roleRepository.count();
+    }
+
+    public RoleDTO findByName(String name){
+        Role role = roleRepository.findByName(name).orElseThrow(NotFoundException::new);
+    	return mapToDTO(role, new RoleDTO());
+    }
+    
+    public void addPrivilegeToRole(long roleId,  long privilegeId) {
+    
+    	Privilege privilege =  privilegeRepository
+    			.findById(privilegeId)
+    			.orElseThrow(() -> new NotFoundException("Not found privilege with id = " + privilegeId));
+    	
+    	Role role  = roleRepository
+    			.findById(roleId)
+                .orElseThrow(() -> new NotFoundException("Not found role with id = " + roleId));
+    
+    	privilege.getRoles().add(role);
+    	role.getPrivileges().add(privilege);
     }
 
     private RoleDTO mapToDTO(final Role role, final RoleDTO roleDTO) {

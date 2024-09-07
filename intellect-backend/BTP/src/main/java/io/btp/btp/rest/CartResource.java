@@ -1,6 +1,6 @@
 package io.btp.btp.rest;
 
-import io.btp.btp.model.CartDTO;
+import io.btp.btp.model.input.CartDTO;
 import io.btp.btp.service.CartService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
